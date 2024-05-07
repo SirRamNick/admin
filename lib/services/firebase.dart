@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-//test
-
 class FirestoreService {
   final CollectionReference alumni =
       FirebaseFirestore.instance.collection('alumni');
