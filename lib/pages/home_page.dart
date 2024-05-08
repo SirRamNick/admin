@@ -2,9 +2,7 @@ import 'package:admin_app/components/admin_appbar.dart';
 import 'package:admin_app/components/admin_drawer.dart';
 import 'package:admin_app/pages/profile_page.dart';
 import 'package:admin_app/services/firebase.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -27,9 +25,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var screenWidth = MediaQuery.of(context).size.width;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Color(0xFFE2E2E2),
+      backgroundColor: const Color(0xFFE2E2E2),
       appBar: adminAppBar,
       drawer: adminDrawer,
       body: Padding(
@@ -40,9 +39,9 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Expanded(
+                const Expanded(
                   child: TextField(
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       hintText: "Search alumni",
                       fillColor: Colors.white,
                       border: OutlineInputBorder(),
@@ -56,36 +55,37 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                SizedBox(width: 15),
+                const SizedBox(width: 15),
                 ElevatedButton(
-                  child: Icon(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1D4695),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 17,
+                      horizontal: 25,
+                    ),
+                  ),
+                  child: const Icon(
                     Icons.search,
                     size: 25,
                     color: Colors.white,
                   ),
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF1D4695),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        vertical: 17,
-                        horizontal: 25,
-                      )),
                 )
               ],
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             // Add Alumni & Sorting Menus
             Row(
               children: [
                 ElevatedButton.icon(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.add,
                     color: Colors.white,
                   ),
-                  label: Text(
+                  label: const Text(
                     "Add Alumni",
                     style: TextStyle(
                       color: Colors.white,
@@ -94,16 +94,16 @@ class _HomePageState extends State<HomePage> {
                   ),
                   onPressed: () => openDialogBox(),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF1D4695),
+                    backgroundColor: const Color(0xFF1D4695),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: EdgeInsets.fromLTRB(15, 15, 20, 15),
+                    padding: const EdgeInsets.fromLTRB(15, 15, 20, 15),
                   ),
                 )
               ],
             ),
-            SizedBox(width: 15),
+            const SizedBox(width: 15),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15),
               child: StreamBuilder(
@@ -112,49 +112,68 @@ class _HomePageState extends State<HomePage> {
                   if (snapshot.hasData) {
                     List alumniList = snapshot.data.docs;
 
-                    return DataTable(
-                      columns: [
-                        DataColumn(
-                          label: Expanded(
-                            child: Text("Name"),
+                    return SizedBox(
+                      width: screenWidth,
+                      child: DataTable(
+                        columns: const [
+                          DataColumn(
+                            label: Expanded(
+                              child: Text("Name"),
+                            ),
                           ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text("Program"),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text("Sex"),
+                            ),
                           ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text("Year Graduated"),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text("Program"),
+                            ),
                           ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text("Sex"),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text("Year Graduated"),
+                            ),
                           ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text("Employment Status"),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text("Employment Status"),
+                            ),
                           ),
-                        ),
-                      ],
-                      rows: [
-                        DataRow(
-                          cells: [
-                            DataCell(Text("ALIMAN, Rovic Xavier")),
-                            DataCell(Text("BSCS")),
-                            DataCell(Text("2019-2023")),
-                            DataCell(Text("M")),
-                            DataCell(Text("Unemployed")),
-                          ],
-                        ),
-                      ]
+                        ],
+                        rows: alumniList
+                            .map(
+                              (doc) => DataRow(
+                                cells: [
+                                  DataCell(
+                                    InkWell(
+                                      onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ProfilePage(
+                                                firstName: doc['first_name'],
+                                                lastName: doc['last_name'],
+                                                program: doc['program'],
+                                                yearGraduated:
+                                                    doc['year_graduated']),
+                                          )),
+                                      child: Text(
+                                          '${doc['first_name']}, ${doc['last_name']}'),
+                                    ),
+                                  ),
+                                  DataCell(Text(doc['sex'])),
+                                  DataCell(Text(doc['program'])),
+                                  DataCell(Text('${doc['year_graduated']}')),
+                                  DataCell(Text('${doc['employment_status']}')),
+                                ],
+                              ),
+                            )
+                            .toList(),
+                      ),
                     );
-                  }
-                  else {
-                    return Center(
+                  } else {
+                    return const Center(
                       child: Text("Loading..."),
                     );
                   }
@@ -237,7 +256,6 @@ class _HomePageState extends State<HomePage> {
             //     ),
             //   ),
             // ),
-
 
             //   child: StreamBuilder(
             //   stream: alumniBase.displayAlumni,
