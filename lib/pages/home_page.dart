@@ -73,6 +73,27 @@ class _HomePageState extends State<HomePage> {
                     size: 25,
                     color: Colors.white,
                   ),
+                ),
+                const SizedBox(
+                  width: 6,
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1D4695),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 17,
+                      horizontal: 25,
+                    ),
+                  ),
+                  child: const Icon(
+                    Icons.sort,
+                    size: 25,
+                    color: Colors.white,
+                  ),
                 )
               ],
             ),
@@ -105,7 +126,7 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(width: 15),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
+              padding: const EdgeInsets.symmetric(vertical: 20),
               child: StreamBuilder(
                 stream: alumniBase.displayAlumni,
                 builder: (context, snapshot) {
@@ -152,20 +173,40 @@ class _HomePageState extends State<HomePage> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => ProfilePage(
-                                                firstName: doc['first_name'],
-                                                lastName: doc['last_name'],
-                                                program: doc['program'],
-                                                yearGraduated:
-                                                    doc['year_graduated']),
+                                              firstName: doc['first_name'],
+                                              lastName: doc['last_name'],
+                                              program: doc['program'],
+                                              yearGraduated:
+                                                  doc['year_graduated'],
+                                            ),
                                           )),
                                       child: Text(
-                                          '${doc['first_name']}, ${doc['last_name']}'),
+                                        '${doc['first_name']}, ${doc['last_name']}',
+                                      ),
                                     ),
                                   ),
-                                  DataCell(Text(doc['sex'])),
-                                  DataCell(Text(doc['program'])),
-                                  DataCell(Text('${doc['year_graduated']}')),
-                                  DataCell(Text('${doc['employment_status']}')),
+                                  DataCell(
+                                    Text(
+                                      doc['sex'],
+                                    ),
+                                  ),
+                                  DataCell(
+                                    Text(
+                                      doc['program'],
+                                    ),
+                                  ),
+                                  DataCell(
+                                    Text(
+                                      '${doc['year_graduated']}',
+                                    ),
+                                  ),
+                                  DataCell(
+                                    Text(
+                                      doc['employment_status']
+                                          ? 'Employed'
+                                          : 'Unemployed',
+                                    ),
+                                  ),
                                 ],
                               ),
                             )
