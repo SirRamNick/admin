@@ -15,6 +15,23 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   FirestoreService alumniBase = FirestoreService();
+  late final TextEditingController searchController;
+  late String nameQuery;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    searchController = TextEditingController();
+    nameQuery = '';
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    searchController.dispose();
+  }
 
   void openDialogBox() {
     showDialog(
@@ -41,9 +58,10 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Expanded(
+                Expanded(
                   child: TextField(
-                    decoration: InputDecoration(
+                    controller: searchController,
+                    decoration: const InputDecoration(
                       hintText: "Search alumni",
                       fillColor: Colors.white,
                       border: OutlineInputBorder(),
@@ -55,6 +73,11 @@ class _HomePageState extends State<HomePage> {
                       ),
                       filled: true,
                     ),
+                    onChanged: (value) {
+                      setState(() {
+                        nameQuery = value.toLowerCase();
+                      });
+                    },
                   ),
                 ),
                 const SizedBox(width: 15),
@@ -103,10 +126,14 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: StreamBuilder(
-                stream: alumniBase.displayAlumni,
+                stream: nameQuery != '' && nameQuery != null
+                    ? alumniBase.alumni
+                        .where('searchable_name', arrayContains: nameQuery)
+                        .snapshots()
+                    : alumniBase.alumni.snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    List alumniList = snapshot.data.docs;
+                    List alumniList = snapshot.data!.docs;
 
                     return SizedBox(
                       width: screenWidth,
@@ -145,15 +172,16 @@ class _HomePageState extends State<HomePage> {
                                   DataCell(
                                     InkWell(
                                       onTap: () => Navigator.pushReplacement(
-                                        context, instantTransitionTo(page: ProfilePage(
-                                            firstName: doc['first_name'],
-                                            lastName: doc['last_name'],
-                                            program: doc['program'],
-                                            yearGraduated:
-                                                doc['year_graduated'],
-                                          ),
-                                        )
-                                      ),
+                                          context,
+                                          instantTransitionTo(
+                                            page: ProfilePage(
+                                              firstName: doc['first_name'],
+                                              lastName: doc['last_name'],
+                                              program: doc['program'],
+                                              yearGraduated:
+                                                  doc['year_graduated'],
+                                            ),
+                                          )),
                                       child: Text(
                                         '${doc['first_name']}, ${doc['last_name']}',
                                       ),
