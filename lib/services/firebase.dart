@@ -25,7 +25,7 @@ class FirestoreService {
       'program': program,
       'year_graduated': yearGraduated,
       'batch': batch,
-      'employment:status': employmentStatus,
+      'employment_status': employmentStatus,
       'searchable_name': setSearchParam(firstName, lastName),
     });
   }

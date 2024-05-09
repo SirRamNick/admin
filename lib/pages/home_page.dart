@@ -46,6 +46,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
+    final searchByPopupMenu = GlobalKey<PopupMenuButtonState>();
+    final sortByPopupMenu = GlobalKey<PopupMenuButtonState>();
+
     return Scaffold(
       backgroundColor: const Color(0xFFE2E2E2),
       appBar: adminAppBar(context),
@@ -58,6 +61,7 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                // Search field
                 Expanded(
                   child: TextField(
                     controller: searchController,
@@ -81,48 +85,87 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(width: 15),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1D4695),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                // 'Search by' button
+                PopupMenuButton(
+                  key: searchByPopupMenu,
+                  tooltip: "Search by",
+                  color: Colors.white,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      searchByPopupMenu.currentState?.showButtonMenu();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1D4695),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 17,
+                        horizontal: 25,
+                      ),
                     ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 17,
-                      horizontal: 25,
+                    child: const Icon(
+                      Icons.search,
+                      size: 25,
+                      color: Colors.white,
                     ),
                   ),
-                  child: const Icon(
-                    Icons.search,
-                    size: 25,
-                    color: Colors.white,
-                  ),
+                  itemBuilder: (context) => <PopupMenuEntry>[
+                    const PopupMenuItem(
+                      child: Text("Search by name"),
+                    ),
+                    const PopupMenuItem(
+                      child: Text("Search by year graduated"),
+                    ),
+                    const PopupMenuItem(
+                      child: Text("Search by program"),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   width: 6,
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1D4695),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                // Sort button
+                PopupMenuButton(
+                  key: sortByPopupMenu,
+                  tooltip: "Sort by",
+                  color: Colors.white,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      sortByPopupMenu.currentState?.showButtonMenu();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1D4695),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 17,
+                        horizontal: 25,
+                      ),
                     ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 17,
-                      horizontal: 25,
+                    child: const Icon(
+                      Icons.sort,
+                      size: 25,
+                      color: Colors.white,
                     ),
                   ),
-                  child: const Icon(
-                    Icons.sort,
-                    size: 25,
-                    color: Colors.white,
-                  ),
-                )
+                  itemBuilder: (context) => <PopupMenuEntry>[
+                    const PopupMenuItem(
+                      child: Text("Sort by surname"),
+                    ),
+                    const PopupMenuItem(
+                      child: Text("Sort by year graduated"),
+                    ),
+                    const PopupMenuItem(
+                      child: Text("Sort by date added"),
+                    ),
+                  ],
+                ),
               ],
             ),
             const SizedBox(height: 15),
+            // Alumni List
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: StreamBuilder(
@@ -138,10 +181,6 @@ class _HomePageState extends State<HomePage> {
                     return Container(
                       width: screenWidth,
                       decoration: BoxDecoration(
-                        // border: Border.all(
-                        //   width: 0.8,
-                        //   color: Colors.black87,
-                        // ),
                         borderRadius: BorderRadius.circular(5),
                         color: Colors.white,
                       ),
@@ -222,22 +261,6 @@ class _HomePageState extends State<HomePage> {
                                       )
                                     );
                                   }
-                                  // InkWell(
-                                  //     onTap: () => Navigator.pushReplacement(
-                                  //         context,
-                                  //         instantTransitionTo(
-                                  //           page: ProfilePage(
-                                  //             firstName: doc['first_name'],
-                                  //             lastName: doc['last_name'],
-                                  //             program: doc['program'],
-                                  //             yearGraduated:
-                                  //                 doc['year_graduated'],
-                                  //           ),
-                                  //         )),
-                                  //     child: Text(
-                                  //       '${doc['first_name']}, ${doc['last_name']}',
-                                  //     ),
-                                  //   ),
                                 },
                                 cells: [
                                   DataCell(
@@ -286,133 +309,6 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             )
-
-            // List of Alumni
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(vertical: 15),
-            //   child: Container(
-            //     width: screenWidth,
-            //     color: Colors.white,
-            //     child: DataTable(
-            //       columns: [
-            //         DataColumn(
-            //           label: Expanded(
-            //             child: Text("Name"),
-            //           ),
-            //         ),
-            //         DataColumn(
-            //           label: Expanded(
-            //             child: Text("Program"),
-            //           ),
-            //         ),
-            //         DataColumn(
-            //           label: Expanded(
-            //             child: Text("Year Graduated"),
-            //           ),
-            //         ),
-            //         DataColumn(
-            //           label: Expanded(
-            //             child: Text("Sex"),
-            //           ),
-            //         ),
-            //         DataColumn(
-            //           label: Expanded(
-            //             child: Text("Employment Status"),
-            //           ),
-            //         ),
-            //       ],
-            //       rows: [
-            //         DataRow(
-            //           cells: [
-            //             DataCell(Text("ALIMAN, Rovic Xavier")),
-            //             DataCell(Text("BSCS")),
-            //             DataCell(Text("2019-2023")),
-            //             DataCell(Text("M")),
-            //             DataCell(Text("Unemployed")),
-            //           ]
-            //         ),
-            //         DataRow(
-            //           cells: [
-            //             DataCell(Text("TIONGSON, Rame Nicholas")),
-            //             DataCell(Text("BSCS")),
-            //             DataCell(Text("2019-2024")),
-            //             DataCell(Text("M")),
-            //             DataCell(Text("Employed")),
-            //           ]
-            //         ),
-            //         DataRow(
-            //           cells: [
-            //             DataCell(Text("TIONGSON, Rame Nicholas")),
-            //             DataCell(Text("BSCS")),
-            //             DataCell(Text("2019-2024")),
-            //             DataCell(Text("M")),
-            //             DataCell(Text("Employed")),
-            //           ]
-            //         ),
-            //         DataRow(
-            //           cells: [
-            //             DataCell(Text("TIONGSON, Rame Nicholas")),
-            //             DataCell(Text("BSCS")),
-            //             DataCell(Text("2019-2024")),
-            //             DataCell(Text("M")),
-            //             DataCell(Text("Employed")),
-            //           ]
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-
-            //   child: StreamBuilder(
-            //   stream: alumniBase.displayAlumni,
-            //   builder: (context, snapshot) {
-            //     if (snapshot.hasData) {
-            //       List alumniList = snapshot.data.docs;
-            //       return ListView.builder(
-            //         padding: EdgeInsets.symmetric(vertical: 15),
-            //         itemCount: alumniList.length,
-            //         itemBuilder: (context, index) {
-            //           DocumentSnapshot doc = alumniList[index];
-            //           return Card(
-            //             child: InkWell(
-            //               child: ListTile(
-            //                 title: Row(
-            //                   children: [
-            //                     Text("${doc['last_name'].toUpperCase()}, ${doc['first_name']}"),
-            //                     Text(doc['program']),
-            //                     Text(doc['batch']),
-            //                     Text(doc['sex']),
-            //                     Text(doc['employment_status'] ? "Employed" : "Unemployed"),
-            //                   ],
-            //                 ),
-            //                 tileColor: Colors.white,
-            //                 shape: RoundedRectangleBorder(
-            //                   borderRadius: BorderRadius.circular(10),
-            //                 ),
-            //               ),
-            //               onTap: () {
-            //                 Navigator.pushReplacement(
-            //                     context,
-            //                     MaterialPageRoute(
-            //                         builder: (context) => ProfilePage(
-            //                               firstName: doc['first_name'],
-            //                               lastName: doc['last_name'],
-            //                               program: doc['program'],
-            //                               yearGraduated: doc['year_graduated'],
-            //                             )));
-            //               },
-            //               borderRadius: BorderRadius.circular(10),
-            //             ),
-            //           );
-            //         },
-            //       );
-            //     } else {
-            //       return Center(
-            //         child: Text("Loading.."),
-            //       );
-            //     }
-            //   },
-            // )
           ],
         ),
       ),
