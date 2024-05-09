@@ -1,5 +1,7 @@
 import 'package:admin_app/components/admin_appbar.dart';
 import 'package:admin_app/components/admin_drawer.dart';
+import 'package:admin_app/components/admin_floatingbutton.dart';
+import 'package:admin_app/components/page_transition.dart';
 import 'package:admin_app/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -39,8 +41,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: adminAppBar,
-      drawer: adminDrawer,
+      appBar: adminAppBar(context),
+      drawer: adminDrawer(context),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -52,15 +54,14 @@ class _ProfilePageState extends State<ProfilePage> {
             TextButton(
               onPressed: () => Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage(),
-                ),
+                instantTransitionTo(page: HomePage())
               ),
               child: Text('Back'),
             ),
           ],
         ),
       ),
+      floatingActionButton: adminFloatingActionButton(context),
     );
   }
 }
