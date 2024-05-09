@@ -242,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                                 cells: [
                                   DataCell(
                                     Text(
-                                        '${doc['first_name']}, ${doc['last_name']}',
+                                        '${doc['last_name'].toString().toUpperCase()}, ${doc['first_name']}',
                                         style: TextStyle(fontSize: 16),
                                     ),
                                   ),
