@@ -1,5 +1,7 @@
 import 'package:admin_app/components/page_transition.dart';
+import 'package:admin_app/pages/add_alumni_page.dart';
 import 'package:admin_app/pages/home_page.dart';
+import 'package:admin_app/pages/statistics_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -49,7 +51,7 @@ Drawer adminDrawer(BuildContext context) => Drawer(
           Navigator.of(context).pop();
           Navigator.pushReplacement(
             context,
-            instantTransitionTo(page: HomePage())
+            instantTransitionTo(HomePage())
           );
         },
       ),
@@ -64,6 +66,10 @@ Drawer adminDrawer(BuildContext context) => Drawer(
         ),
         onPressed: () {
           Navigator.of(context).pop();
+          Navigator.pushReplacement(
+            context,
+            instantTransitionTo(AddAlumniPage())
+          );
         },
       ),
       TextButton(
@@ -77,6 +83,10 @@ Drawer adminDrawer(BuildContext context) => Drawer(
         ),
         onPressed: () {
           Navigator.of(context).pop();
+          Navigator.pushReplacement(
+            context,
+            instantTransitionTo(StatisticsPage())
+          );
         },
       ),
     ],

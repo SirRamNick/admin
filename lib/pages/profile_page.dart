@@ -54,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
             TextButton(
               onPressed: () => Navigator.pushReplacement(
                 context,
-                instantTransitionTo(page: HomePage())
+                instantTransitionTo(HomePage())
               ),
               child: Text('Back'),
             ),
