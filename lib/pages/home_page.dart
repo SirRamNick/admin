@@ -135,71 +135,133 @@ class _HomePageState extends State<HomePage> {
                   if (snapshot.hasData) {
                     List alumniList = snapshot.data!.docs;
 
-                    return SizedBox(
+                    return Container(
                       width: screenWidth,
+                      decoration: BoxDecoration(
+                        // border: Border.all(
+                        //   width: 0.8,
+                        //   color: Colors.black87,
+                        // ),
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white,
+                      ),
                       child: DataTable(
+                        showCheckboxColumn: false,
+                        headingRowHeight: 40,
                         columns: const [
                           DataColumn(
                             label: Expanded(
-                              child: Text("Name"),
+                              child: Text(
+                                "Name",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black87,
+                                ),
+                              ),
                             ),
                           ),
                           DataColumn(
                             label: Expanded(
-                              child: Text("Sex"),
+                              child: Text(
+                                "Sex",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black87,
+                                ),
+                              ),
                             ),
                           ),
                           DataColumn(
                             label: Expanded(
-                              child: Text("Program"),
+                              child: Text(
+                                "Program",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black87,
+                                ),
+                              ),
                             ),
                           ),
                           DataColumn(
                             label: Expanded(
-                              child: Text("Year Graduated"),
+                              child: Text(
+                                "Year Graduated",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black87,
+                                ),
+                              ),
                             ),
                           ),
                           DataColumn(
                             label: Expanded(
-                              child: Text("Employment Status"),
+                              child: Text(
+                                "Employment Status",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black87,
+                                ),
+                              ),
                             ),
                           ),
                         ],
                         rows: alumniList
                             .map(
                               (doc) => DataRow(
+                                onSelectChanged: (selected) {
+                                  if (selected == true) {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      instantTransitionTo(
+                                        ProfilePage(
+                                          firstName: doc['first_name'],
+                                          lastName: doc['last_name'],
+                                          program: doc['program'],
+                                          yearGraduated: doc['year_graduated'],
+                                        ),
+                                      )
+                                    );
+                                  }
+                                  // InkWell(
+                                  //     onTap: () => Navigator.pushReplacement(
+                                  //         context,
+                                  //         instantTransitionTo(
+                                  //           page: ProfilePage(
+                                  //             firstName: doc['first_name'],
+                                  //             lastName: doc['last_name'],
+                                  //             program: doc['program'],
+                                  //             yearGraduated:
+                                  //                 doc['year_graduated'],
+                                  //           ),
+                                  //         )),
+                                  //     child: Text(
+                                  //       '${doc['first_name']}, ${doc['last_name']}',
+                                  //     ),
+                                  //   ),
+                                },
                                 cells: [
                                   DataCell(
-                                    InkWell(
-                                      onTap: () => Navigator.pushReplacement(
-                                          context,
-                                          instantTransitionTo(
-                                            page: ProfilePage(
-                                              firstName: doc['first_name'],
-                                              lastName: doc['last_name'],
-                                              program: doc['program'],
-                                              yearGraduated:
-                                                  doc['year_graduated'],
-                                            ),
-                                          )),
-                                      child: Text(
+                                    Text(
                                         '${doc['first_name']}, ${doc['last_name']}',
-                                      ),
+                                        style: TextStyle(fontSize: 16),
                                     ),
                                   ),
                                   DataCell(
                                     Text(
                                       doc['sex'],
+                                      style: TextStyle(fontSize: 16),
                                     ),
                                   ),
                                   DataCell(
                                     Text(
                                       doc['program'],
+                                      style: TextStyle(fontSize: 16),
                                     ),
                                   ),
                                   DataCell(
                                     Text(
                                       '${doc['year_graduated']}',
+                                      style: TextStyle(fontSize: 16),
                                     ),
                                   ),
                                   DataCell(
@@ -207,6 +269,7 @@ class _HomePageState extends State<HomePage> {
                                       doc['employment_status']
                                           ? 'Employed'
                                           : 'Unemployed',
+                                        style: TextStyle(fontSize: 16),
                                     ),
                                   ),
                                 ],
