@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-AppBar adminAppBar = AppBar(
+AppBar adminAppBar(BuildContext context) => AppBar(
   backgroundColor: Color(0xFFE2E2E2),
   title: Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,

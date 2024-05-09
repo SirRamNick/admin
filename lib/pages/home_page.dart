@@ -1,5 +1,7 @@
 import 'package:admin_app/components/admin_appbar.dart';
 import 'package:admin_app/components/admin_drawer.dart';
+import 'package:admin_app/components/admin_floatingbutton.dart';
+import 'package:admin_app/components/page_transition.dart';
 import 'package:admin_app/pages/profile_page.dart';
 import 'package:admin_app/services/firebase.dart';
 import 'package:flutter/material.dart';
@@ -29,8 +31,8 @@ class _HomePageState extends State<HomePage> {
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: const Color(0xFFE2E2E2),
-      appBar: adminAppBar,
-      drawer: adminDrawer,
+      appBar: adminAppBar(context),
+      drawer: adminDrawer(context),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
@@ -98,33 +100,6 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             const SizedBox(height: 15),
-            // Add Alumni & Sorting Menus
-            Row(
-              children: [
-                ElevatedButton.icon(
-                  icon: const Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                  label: const Text(
-                    "Add Alumni",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                    ),
-                  ),
-                  onPressed: () => openDialogBox(),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1D4695),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: const EdgeInsets.fromLTRB(15, 15, 20, 15),
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(width: 15),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: StreamBuilder(
@@ -169,17 +144,16 @@ class _HomePageState extends State<HomePage> {
                                 cells: [
                                   DataCell(
                                     InkWell(
-                                      onTap: () => Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => ProfilePage(
-                                              firstName: doc['first_name'],
-                                              lastName: doc['last_name'],
-                                              program: doc['program'],
-                                              yearGraduated:
-                                                  doc['year_graduated'],
-                                            ),
-                                          )),
+                                      onTap: () => Navigator.pushReplacement(
+                                        context, instantTransitionTo(page: ProfilePage(
+                                            firstName: doc['first_name'],
+                                            lastName: doc['last_name'],
+                                            program: doc['program'],
+                                            yearGraduated:
+                                                doc['year_graduated'],
+                                          ),
+                                        )
+                                      ),
                                       child: Text(
                                         '${doc['first_name']}, ${doc['last_name']}',
                                       ),
@@ -351,6 +325,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+      floatingActionButton: adminFloatingActionButton(context),
     );
   }
 }
