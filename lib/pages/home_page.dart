@@ -35,15 +35,6 @@ class _HomePageState extends State<HomePage> {
     searchController.dispose();
   }
 
-  void openDialogBox() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        content: TextField(),
-      ),
-    );
-  }  
-
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -125,12 +116,11 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            const SizedBox(height: 15),
             // Alumni List
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: StreamBuilder(
-                stream: nameQuery != '' && nameQuery != null
+                stream: nameQuery != ''
                     ? alumniBase.alumni
                         .where('searchable_name', arrayContains: nameQuery)
                         .snapshots()

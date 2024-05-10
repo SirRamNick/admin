@@ -58,6 +58,37 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               child: Text('Back'),
             ),
+            TextButton(
+              onPressed: () => showDialog(
+                context: context, 
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text("Confim Delete?"),
+                    content: Text("Are you sure you wanted to delete $firstName $lastName from the database?"),
+                    actions: [
+                      TextButton(
+                        child: Text("Cancel"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text("Yes"),
+                        onPressed: () {
+                          // TODO: Make the deletion work huehue
+                          Navigator.of(context).pop();
+                          Navigator.pushReplacement(
+                            context,
+                            instantTransitionTo(HomePage())
+                          );
+                        },
+                      ),
+                    ]
+                  );
+                }
+              ),
+              child: Text('Delete'),
+            ),
           ],
         ),
       ),

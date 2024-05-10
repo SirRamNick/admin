@@ -4,6 +4,7 @@ class FirestoreService {
   final CollectionReference alumni =
       FirebaseFirestore.instance.collection('alumni');
 
+  // Create
   Future addAlumnus(String firstName, String lastName, String program,
       int yearGraduated, String batch, String sex, bool employmentStatus) {
     setSearchParam(String firstName, String lastName) {
@@ -29,4 +30,7 @@ class FirestoreService {
       'searchable_name': setSearchParam(firstName, lastName),
     });
   }
+
+  // Delete
+  Future deleteAlumnus(String? docID) => alumni.doc(docID).delete();
 }
