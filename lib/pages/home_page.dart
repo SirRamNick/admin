@@ -17,6 +17,8 @@ class _HomePageState extends State<HomePage> {
   FirestoreService alumniBase = FirestoreService();
   late final TextEditingController searchController;
   late String nameQuery;
+  bool sortByNameAscending = false;
+  bool sortByYearGraduatedAscending = false;
 
   @override
   void initState() {
@@ -40,14 +42,13 @@ class _HomePageState extends State<HomePage> {
         content: TextField(),
       ),
     );
-  }
+  }  
 
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     final searchByPopupMenu = GlobalKey<PopupMenuButtonState>();
-    final sortByPopupMenu = GlobalKey<PopupMenuButtonState>();
 
     return Scaffold(
       backgroundColor: const Color(0xFFE2E2E2),
@@ -122,46 +123,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  width: 6,
-                ),
-                // Sort button
-                PopupMenuButton(
-                  key: sortByPopupMenu,
-                  tooltip: "Sort by",
-                  color: Colors.white,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      sortByPopupMenu.currentState?.showButtonMenu();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF1D4695),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 17,
-                        horizontal: 25,
-                      ),
-                    ),
-                    child: const Icon(
-                      Icons.sort,
-                      size: 25,
-                      color: Colors.white,
-                    ),
-                  ),
-                  itemBuilder: (context) => <PopupMenuEntry>[
-                    const PopupMenuItem(
-                      child: Text("Sort by surname"),
-                    ),
-                    const PopupMenuItem(
-                      child: Text("Sort by year graduated"),
-                    ),
-                    const PopupMenuItem(
-                      child: Text("Sort by date added"),
-                    ),
-                  ],
-                ),
               ],
             ),
             const SizedBox(height: 15),
@@ -187,14 +148,30 @@ class _HomePageState extends State<HomePage> {
                       child: DataTable(
                         showCheckboxColumn: false,
                         headingRowHeight: 40,
-                        columns: const [
+                        columns: [
                           DataColumn(
                             label: Expanded(
-                              child: Text(
-                                "Name",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black87,
+                              child: InkWell(
+                                onTap: () {
+                                  setState((){
+                                    sortByNameAscending = !sortByNameAscending;
+                                  });
+                                },
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      sortByNameAscending == true
+                                      ? Icons.arrow_drop_up
+                                      : Icons.arrow_drop_down
+                                    ),
+                                    Text(
+                                      "Name",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -223,23 +200,43 @@ class _HomePageState extends State<HomePage> {
                           ),
                           DataColumn(
                             label: Expanded(
-                              child: Text(
-                                "Year Graduated",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black87,
+                              child: InkWell(
+                                onTap: () {
+                                  setState((){
+                                    sortByYearGraduatedAscending = !sortByYearGraduatedAscending;
+                                  });
+                                },
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      sortByYearGraduatedAscending == true
+                                      ? Icons.arrow_drop_up
+                                      : Icons.arrow_drop_down
+                                    ),
+                                    Text(
+                                      "Year Graduated",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
                           ),
                           DataColumn(
                             label: Expanded(
-                              child: Text(
-                                "Employment Status",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black87,
-                                ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Employment Status",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black87,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
