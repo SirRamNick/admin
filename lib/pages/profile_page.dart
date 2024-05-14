@@ -3,19 +3,16 @@ import 'package:admin_app/components/admin_drawer.dart';
 import 'package:admin_app/components/admin_floatingbutton.dart';
 import 'package:admin_app/components/page_transition.dart';
 import 'package:admin_app/pages/home_page.dart';
+import 'package:admin_app/services/firebase.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String firstName;
-  final String lastName;
-  final String program;
-  final int yearGraduated;
+  final DocumentSnapshot document;
+
   const ProfilePage({
     super.key,
-    required this.firstName,
-    required this.lastName,
-    required this.program,
-    required this.yearGraduated,
+    required this.document,
   });
 
   @override
@@ -23,19 +20,29 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  FirestoreService alumniBase = FirestoreService();
+
+  late final DocumentSnapshot doc;
   late final String firstName;
   late final String lastName;
+  late final String sex;
   late final String program;
   late final int yearGraduated;
+  late final String batch;
+  late final String employmentStatus;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    firstName = widget.firstName;
-    lastName = widget.lastName;
-    program = widget.program;
-    yearGraduated = widget.yearGraduated;
+    doc = widget.document;
+    firstName = doc['first_name'];
+    lastName = doc['last_name'];
+    sex = doc['sex'];
+    program = doc['program'];
+    yearGraduated = doc['year_graduated'];
+    batch = doc['batch'];
+    employmentStatus = doc['employment_status'] == true ? 'Employed' : 'Unemployed';
   }
 
   @override
@@ -47,47 +54,55 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(firstName),
-            Text(lastName),
-            Text(program),
-            Text('$yearGraduated'),
-            TextButton(
-              onPressed: () => Navigator.pushReplacement(
-                context,
-                instantTransitionTo(HomePage())
-              ),
-              child: Text('Back'),
-            ),
-            TextButton(
-              onPressed: () => showDialog(
-                context: context, 
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text("Confim Delete?"),
-                    content: Text("Are you sure you wanted to delete $firstName $lastName from the database?"),
-                    actions: [
-                      TextButton(
-                        child: Text("Cancel"),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      TextButton(
-                        child: Text("Yes"),
-                        onPressed: () {
-                          // TODO: Make the deletion work huehue
-                          Navigator.of(context).pop();
-                          Navigator.pushReplacement(
-                            context,
-                            instantTransitionTo(HomePage())
-                          );
-                        },
-                      ),
-                    ]
-                  );
-                }
-              ),
-              child: Text('Delete'),
+            Text("First Name: $firstName"),
+            Text("Last Name: $lastName"),
+            Text("Sex: $sex"),
+            Text("Program: $program"),
+            Text("Year Graduated: $yearGraduated"),
+            Text("Batch: $batch"),
+            Text("Employment Status: $employmentStatus"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () => Navigator.pushReplacement(
+                    context,
+                    instantTransitionTo(HomePage())
+                  ),
+                  child: Text('Back'),
+                ),
+                TextButton(
+                  onPressed: () => showDialog(
+                    context: context, 
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text("Confim Delete?"),
+                        content: Text("Are you sure you wanted to delete '$firstName $lastName' from the database?"),
+                        actions: [
+                          TextButton(
+                            child: Text("Cancel"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: Text("Yes"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              alumniBase.deleteAlumnus(doc.id);
+                              Navigator.pushReplacement(
+                                context,
+                                instantTransitionTo(HomePage())
+                              );
+                            },
+                          ),
+                        ]
+                      );
+                    }
+                  ),
+                  child: Text('Delete'),
+                ),
+              ],
             ),
           ],
         ),

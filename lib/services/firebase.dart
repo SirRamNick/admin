@@ -31,6 +31,9 @@ class FirestoreService {
     });
   }
 
+  // Read
+  Future getAlumnus(String docID) => alumni.doc(docID).get();
+
   // Delete
   Future deleteAlumnus(String? docID) => alumni.doc(docID).delete();
 }
