@@ -1,7 +1,5 @@
 import 'package:admin_app/components/admin_appbar.dart';
 import 'package:admin_app/components/admin_drawer.dart';
-import 'package:admin_app/components/page_transition.dart';
-import 'package:admin_app/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 class StatisticsPage extends StatefulWidget {

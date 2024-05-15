@@ -1,10 +1,17 @@
 import 'package:admin_app/components/admin_appbar.dart';
 import 'package:admin_app/components/admin_drawer.dart';
-import 'package:admin_app/components/admin_floatingbutton.dart';
+import 'package:admin_app/components/home_floatingbutton.dart';
 import 'package:admin_app/components/page_transition.dart';
 import 'package:admin_app/pages/profile_page.dart';
 import 'package:admin_app/services/firebase.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+enum SearchBy {
+  name,
+  yearGraduated,
+  program,
+}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,6 +26,33 @@ class _HomePageState extends State<HomePage> {
   late String nameQuery;
   bool sortByNameAscending = false;
   bool sortByYearGraduatedAscending = false;
+  SearchBy searchParam = SearchBy.name;
+
+  Stream getAlumniStream(SearchBy selected) {
+    // nameQuery != ''
+    // ? alumniBase.alumni
+    //     .where('searchable_name', arrayContains: nameQuery)
+    //     .snapshots()
+    // : alumniBase.alumni.snapshots()
+    if (selected == SearchBy.name) {
+      if (nameQuery != '') {
+        return alumniBase.alumni
+          .where('searchable_name', arrayContains: nameQuery)
+          .snapshots();
+      }
+    }
+    else if (selected == SearchBy.yearGraduated) {
+      return alumniBase.alumni
+        .where('year_graduated', isEqualTo: nameQuery)
+        .snapshots();
+    }
+    else if (selected == SearchBy.program) {
+      return alumniBase.alumni
+        .where('program', arrayContains: nameQuery)
+        .snapshots();
+    }
+    return alumniBase.alumni.snapshots();
+  }
 
   @override
   void initState() {
@@ -35,15 +69,6 @@ class _HomePageState extends State<HomePage> {
     searchController.dispose();
   }
 
-  void openDialogBox() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        content: TextField(),
-      ),
-    );
-  }  
-
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -56,7 +81,7 @@ class _HomePageState extends State<HomePage> {
       drawer: adminDrawer(context),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
-        child: Column(
+        child: ListView(
           children: [
             // Search Bar
             Row(
@@ -66,8 +91,11 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   child: TextField(
                     controller: searchController,
-                    decoration: const InputDecoration(
-                      hintText: "Search alumni",
+                    decoration: InputDecoration(
+                      hintText: searchParam == SearchBy.name ? "Search alumni"
+                        : searchParam == SearchBy.yearGraduated ? "Search by graduation year"
+                        : searchParam == SearchBy.program ? "Search by program"
+                        : "Search",
                       fillColor: Colors.white,
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(
@@ -89,8 +117,14 @@ class _HomePageState extends State<HomePage> {
                 // 'Search by' button
                 PopupMenuButton(
                   key: searchByPopupMenu,
+                  initialValue: searchParam,
                   tooltip: "Search by",
                   color: Colors.white,
+                  onSelected: (selected) {
+                    setState(() {
+                      searchParam = selected;
+                    });
+                  },
                   child: ElevatedButton(
                     onPressed: () {
                       searchByPopupMenu.currentState?.showButtonMenu();
@@ -113,32 +147,29 @@ class _HomePageState extends State<HomePage> {
                   ),
                   itemBuilder: (context) => <PopupMenuEntry>[
                     const PopupMenuItem(
+                      value: SearchBy.name,
                       child: Text("Search by name"),
                     ),
                     const PopupMenuItem(
+                      value: SearchBy.yearGraduated,
                       child: Text("Search by year graduated"),
                     ),
                     const PopupMenuItem(
+                      value: SearchBy.program,
                       child: Text("Search by program"),
                     ),
                   ],
                 ),
               ],
             ),
-            const SizedBox(height: 15),
             // Alumni List
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: StreamBuilder(
-                stream: nameQuery != '' && nameQuery != null
-                    ? alumniBase.alumni
-                        .where('searchable_name', arrayContains: nameQuery)
-                        .snapshots()
-                    : alumniBase.alumni.snapshots(),
+                stream: getAlumniStream(searchParam),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     List alumniList = snapshot.data!.docs;
-
                     return Container(
                       width: screenWidth,
                       decoration: BoxDecoration(
@@ -164,7 +195,7 @@ class _HomePageState extends State<HomePage> {
                                       ? Icons.arrow_drop_up
                                       : Icons.arrow_drop_down
                                     ),
-                                    Text(
+                                    const Text(
                                       "Name",
                                       style: TextStyle(
                                         fontSize: 12,
@@ -176,7 +207,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-                          DataColumn(
+                          const DataColumn(
                             label: Expanded(
                               child: Text(
                                 "Sex",
@@ -187,7 +218,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-                          DataColumn(
+                          const DataColumn(
                             label: Expanded(
                               child: Text(
                                 "Program",
@@ -213,7 +244,7 @@ class _HomePageState extends State<HomePage> {
                                       ? Icons.arrow_drop_up
                                       : Icons.arrow_drop_down
                                     ),
-                                    Text(
+                                    const Text(
                                       "Year Graduated",
                                       style: TextStyle(
                                         fontSize: 12,
@@ -225,7 +256,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-                          DataColumn(
+                          const DataColumn(
                             label: Expanded(
                               child: Row(
                                 children: [
@@ -249,12 +280,7 @@ class _HomePageState extends State<HomePage> {
                                     Navigator.pushReplacement(
                                       context,
                                       instantTransitionTo(
-                                        ProfilePage(
-                                          firstName: doc['first_name'],
-                                          lastName: doc['last_name'],
-                                          program: doc['program'],
-                                          yearGraduated: doc['year_graduated'],
-                                        ),
+                                        ProfilePage(document: doc),
                                       )
                                     );
                                   }
@@ -263,25 +289,25 @@ class _HomePageState extends State<HomePage> {
                                   DataCell(
                                     Text(
                                         '${doc['last_name'].toString().toUpperCase()}, ${doc['first_name']}',
-                                        style: TextStyle(fontSize: 16),
+                                        style: const TextStyle(fontSize: 16),
                                     ),
                                   ),
                                   DataCell(
                                     Text(
                                       doc['sex'],
-                                      style: TextStyle(fontSize: 16),
+                                      style: const TextStyle(fontSize: 16),
                                     ),
                                   ),
                                   DataCell(
                                     Text(
                                       doc['program'],
-                                      style: TextStyle(fontSize: 16),
+                                      style: const TextStyle(fontSize: 16),
                                     ),
                                   ),
                                   DataCell(
                                     Text(
                                       '${doc['year_graduated']}',
-                                      style: TextStyle(fontSize: 16),
+                                      style: const TextStyle(fontSize: 16),
                                     ),
                                   ),
                                   DataCell(
@@ -289,7 +315,7 @@ class _HomePageState extends State<HomePage> {
                                       doc['employment_status']
                                           ? 'Employed'
                                           : 'Unemployed',
-                                        style: TextStyle(fontSize: 16),
+                                        style: const TextStyle(fontSize: 16),
                                     ),
                                   ),
                                 ],
@@ -309,7 +335,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      floatingActionButton: adminFloatingActionButton(context),
+      floatingActionButton: homeFloatingActionButton(context),
     );
   }
 }
