@@ -1,5 +1,6 @@
 import 'package:admin_app/firebase_options.dart';
 import 'package:admin_app/pages/home_page.dart';
+import 'package:admin_app/pages/statistics_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "OATS Admin Site",
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      // home: HomePage(),
+      home: StatisticsPage(),
     );
   }
 }

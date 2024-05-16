@@ -6,6 +6,7 @@ import 'package:admin_app/pages/profile_page.dart';
 import 'package:admin_app/services/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 enum SearchBy {
   name,
@@ -23,7 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   FirestoreService alumniBase = FirestoreService();
   late final TextEditingController searchController;
-  late String nameQuery;
+  late String searchStringQuery;
   late SearchBy searchParam;
   bool? sortByNameAscending;
   bool? sortByYearGraduatedAscending;
@@ -56,14 +57,14 @@ class _HomePageState extends State<HomePage> {
       return alumniQuery;
     }
 
-    if (nameQuery != '') {
+    if (searchStringQuery != '') {
       if (selected == SearchBy.name) {
-        return applySort().where('searchable_name', arrayContains: nameQuery);
+        return applySort().where('searchable_name', arrayContains: searchStringQuery);
       } else if (selected == SearchBy.yearGraduated) {
         return applySort()
-            .where('year_graduated', isEqualTo: int.tryParse(nameQuery));
+            .where('year_graduated', isEqualTo: int.tryParse(searchStringQuery));
       } else if (selected == SearchBy.program) {
-        return applySort().where('program', isEqualTo: nameQuery);
+        return applySort().where('program', isEqualTo: searchStringQuery);
       }
     }
 
@@ -75,7 +76,7 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
     searchController = TextEditingController();
-    nameQuery = '';
+    searchStringQuery = '';
     searchParam = SearchBy.name;
   }
 
@@ -96,18 +97,24 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: const Color(0xFFE2E2E2),
       appBar: adminAppBar(context),
       drawer: adminDrawer(context),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: ListView(
-          children: [
-            // Search Bar
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // Search field
-                Expanded(
+      body: ListView(
+        children: [
+          // Search Bar
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              // Search field
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 17,
+                    top: 17,
+                    right: 8.5,
+                    bottom: 8.5,
+                  ),
                   child: TextField(
                     controller: searchController,
+                    enabled: true,
                     decoration: InputDecoration(
                       hintText: searchParam == SearchBy.name
                           ? "Search alumni"
@@ -117,8 +124,8 @@ class _HomePageState extends State<HomePage> {
                                   ? "Search by program"
                                   : "Search",
                       fillColor: Colors.white,
-                      border: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
+                      border: const OutlineInputBorder(),
+                      focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Color(0xFF1D4695),
                           width: 2,
@@ -128,20 +135,27 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onChanged: (value) {
                       setState(() {
-                        nameQuery = value.toLowerCase();
+                        searchStringQuery = value;
                       });
                     },
                     onTap: () {
                       setState(() {
-                        sortByNameAscending =
-                            sortByYearGraduatedAscending = null;
+                        sortByNameAscending = null;
+                        sortByYearGraduatedAscending = null;
                       });
                     },
                   ),
                 ),
-                const SizedBox(width: 15),
-                // 'Search by' button
-                PopupMenuButton(
+              ),
+              // 'Search by' button
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 8.5,
+                  top: 17,
+                  right: 17,
+                  bottom: 8.5,
+                ),
+                child: PopupMenuButton(
                   key: searchByPopupMenu,
                   initialValue: searchParam,
                   tooltip: "Search by",
@@ -149,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                   onSelected: (selected) {
                     setState(() {
                       searchController.clear();
-                      nameQuery = '';
+                      searchStringQuery = '';
                       searchParam = selected;
                     });
                   },
@@ -207,133 +221,140 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-              ],
+              ),
+            ],
+          ),
+          // Alumni List
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 17,
+              top: 8.5,
+              right: 17,
+              bottom: 17,
             ),
-            // Alumni List
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: StreamBuilder(
-                stream: getAlumniQuery(searchParam).snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    List alumniList = snapshot.data!.docs;
-                    return Container(
-                      width: screenWidth,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white,
-                      ),
-                      child: DataTable(
-                        showCheckboxColumn: false,
-                        headingRowHeight: 40,
-                        columns: [
-                          DataColumn(
-                            label: Expanded(
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    sortByYearGraduatedAscending = null;
-                                    if (sortByNameAscending == null) {
-                                      sortByNameAscending = true;
-                                    } else if (sortByNameAscending == true) {
-                                      sortByNameAscending = false;
-                                    } else {
-                                      sortByNameAscending = null;
-                                    }
-                                  });
-                                },
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      sortByNameAscending == true
-                                          ? Icons.arrow_drop_up
-                                          : sortByNameAscending == false
-                                              ? Icons.arrow_drop_down
-                                              : Icons.sort,
-                                      size: 20,
-                                    ),
-                                    const SizedBox(width: 5),
-                                    const Text(
-                                      "Name",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.black87,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                "Sex",
+            child: StreamBuilder(
+              stream: getAlumniQuery(searchParam).snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List alumniList = snapshot.data!.docs;
+                  return Container(
+                    width: screenWidth,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.white,
+                    ),
+                    child: DataTable(
+                      showCheckboxColumn: false,
+                      headingRowHeight: 40,
+                      columns: [
+                        DataColumn(
+                          label: Expanded(
+                            // Sort by name
+                            child: searchStringQuery != ''
+                            ? const Text(
+                                "Name",
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.black87,
                                 ),
-                              ),
-                            ),
-                          ),
-                          const DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                "Program",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Expanded(
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
+                              )
+                            : InkWell(
+                              onTap: () {
+                                setState(() {
+                                  sortByYearGraduatedAscending = null;
+                                  if (sortByNameAscending == null) {
+                                    sortByNameAscending = true;
+                                  } else if (sortByNameAscending == true) {
+                                    sortByNameAscending = false;
+                                  } else {
                                     sortByNameAscending = null;
-                                    if (sortByYearGraduatedAscending == null) {
-                                      sortByYearGraduatedAscending = true;
-                                    } else if (sortByYearGraduatedAscending ==
-                                        true) {
-                                      sortByYearGraduatedAscending = false;
-                                    } else {
-                                      sortByYearGraduatedAscending = null;
-                                    }
-                                  });
-                                },
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      sortByYearGraduatedAscending == true
-                                          ? Icons.arrow_drop_up
-                                          : sortByYearGraduatedAscending ==
-                                                  false
-                                              ? Icons.arrow_drop_down
-                                              : Icons.sort,
-                                      size: 20,
-                                    ),
-                                    const SizedBox(width: 5),
-                                    const Text(
-                                      "Year Graduated",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.black87,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const DataColumn(
-                            label: Expanded(
+                                  }
+                                });
+                              },
                               child: Row(
                                 children: [
-                                  Text(
-                                    "Employment Status",
+                                  Icon(
+                                    sortByNameAscending == true
+                                        ? Icons.arrow_drop_up
+                                        : sortByNameAscending == false
+                                            ? Icons.arrow_drop_down
+                                            : Icons.sort,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  const Text(
+                                    "Name",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black87,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const DataColumn(
+                          label: Expanded(
+                            child: Text(
+                              "Sex",
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const DataColumn(
+                          label: Expanded(
+                            child: Text(
+                              "Program",
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                        ),
+                        DataColumn(
+                          label: Expanded(
+                            // Sort by year graduated
+                            child: searchStringQuery != ''
+                            ? Text(
+                                "Year Graduated",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black87,
+                                ),
+                              )
+                            : InkWell(
+                              onTap: () {
+                                setState(() {
+                                  sortByNameAscending = null;
+                                  if (sortByYearGraduatedAscending == null) {
+                                    sortByYearGraduatedAscending = true;
+                                  } else if (sortByYearGraduatedAscending ==
+                                      true) {
+                                    sortByYearGraduatedAscending = false;
+                                  } else {
+                                    sortByYearGraduatedAscending = null;
+                                  }
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    sortByYearGraduatedAscending == true
+                                        ? Icons.arrow_drop_up
+                                        : sortByYearGraduatedAscending ==
+                                                false
+                                            ? Icons.arrow_drop_down
+                                            : Icons.sort,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  const Text(
+                                    "Year Graduated",
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Colors.black87,
@@ -344,68 +365,86 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-                        ],
-                        rows: alumniList
-                            .map(
-                              (doc) => DataRow(
-                                onSelectChanged: (selected) {
-                                  if (selected == true) {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        instantTransitionTo(
-                                          ProfilePage(document: doc),
-                                        ));
-                                  }
-                                },
-                                cells: [
-                                  DataCell(
-                                    Text(
-                                      '${doc['last_name'].toString().toUpperCase()}, ${doc['first_name']}',
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
+                        ),
+                        const DataColumn(
+                          label: Expanded(
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Employment Status",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.black87,
                                   ),
-                                  DataCell(
-                                    Text(
-                                      doc['sex'],
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                      rows: alumniList
+                          .map(
+                            (doc) => DataRow(
+                              onSelectChanged: (selected) {
+                                if (selected == true) {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      instantTransitionTo(
+                                        ProfilePage(document: doc),
+                                      ));
+                                }
+                              },
+                              cells: [
+                                DataCell(
+                                  Text(
+                                    '${doc['last_name'].toString().toUpperCase()}, ${doc['first_name']}',
+                                    style: const TextStyle(fontSize: 16),
                                   ),
-                                  DataCell(
-                                    Text(
-                                      doc['program'],
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    doc['sex'],
+                                    style: const TextStyle(fontSize: 16),
                                   ),
-                                  DataCell(
-                                    Text(
-                                      '${doc['year_graduated']}',
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    doc['program'],
+                                    style: const TextStyle(fontSize: 16),
                                   ),
-                                  DataCell(
-                                    Text(
-                                      doc['employment_status']
-                                          ? 'Employed'
-                                          : 'Unemployed',
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    '${doc['year_graduated']}',
+                                    style: const TextStyle(fontSize: 16),
                                   ),
-                                ],
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    );
-                  } else {
-                    return const Center(
-                      child: Text("Loading..."),
-                    );
-                  }
-                },
-              ),
-            )
-          ],
-        ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    doc['employment_status']
+                                        ? 'Employed'
+                                        : 'Unemployed',
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  );
+                } else {
+                  return const Center(
+                    child: SpinKitFadingCircle(
+                      color: Colors.black,
+                    ),
+                  );
+                }
+              },
+            ),
+          )
+        ],
       ),
       floatingActionButton: homeFloatingActionButton(context),
     );

@@ -28,7 +28,6 @@ class _ProfilePageState extends State<ProfilePage> {
   late final String sex;
   late final String program;
   late final int yearGraduated;
-  late final String batch;
   late final String employmentStatus;
 
   @override
@@ -41,7 +40,6 @@ class _ProfilePageState extends State<ProfilePage> {
     sex = doc['sex'];
     program = doc['program'];
     yearGraduated = doc['year_graduated'];
-    batch = doc['batch'];
     employmentStatus = doc['employment_status'] == true ? 'Employed' : 'Unemployed';
   }
 
@@ -59,7 +57,6 @@ class _ProfilePageState extends State<ProfilePage> {
             Text("Sex: $sex"),
             Text("Program: $program"),
             Text("Year Graduated: $yearGraduated"),
-            Text("Batch: $batch"),
             Text("Employment Status: $employmentStatus"),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
