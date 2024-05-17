@@ -119,35 +119,60 @@ Drawer adminDrawer(BuildContext context) => Drawer(
                             ),
                             Text(
                               "Rame Nicholas Tiongson",
-                              style: TextStyle(
-                                fontSize: 18,
-                              )
+                              style: TextStyle(fontSize: 18),
                             ),
                             SizedBox(height: 10),
                             Text(
                               "System Analyst",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
-                            Text("Rovic Xavier Aliman"),
+                            Text(
+                              "Rovic Xavier Aliman",
+                              style: TextStyle(fontSize: 16),
+                            ),
                             SizedBox(height: 5),
                             Text(
                               "Documentations Specialist",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
-                            Text("Amparito Orticio"),
+                            Text(
+                              "Amparito Orticio",
+                              style: TextStyle(fontSize: 16),
+                            ),
                             SizedBox(height: 5),
                             Text(
                               "System Designer",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
-                            Text("Marvin Uneta"),
+                            Text(
+                              "Marvin Uneta",
+                              style: TextStyle(fontSize: 16),
+                            ),
                             SizedBox(height: 5),
                             Text(
                               "Developers",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
-                            Text("Jaydee Moles"),
-                            Text("Maverick Malala"),
+                            Text(
+                              "Jaydee Moles",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            Text(
+                              "Maverick Malala",
+                              style: TextStyle(fontSize: 16),
+                            ),
                             SizedBox(height: 15),
                             Text(
                               "(c) OLOPSC Computer Society 2024",
