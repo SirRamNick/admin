@@ -123,7 +123,7 @@ Drawer adminDrawer(BuildContext context) => Drawer(
                             ),
                             SizedBox(height: 10),
                             Text(
-                              "System Analyst",
+                              "System Analyst/Developer",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
@@ -143,34 +143,6 @@ Drawer adminDrawer(BuildContext context) => Drawer(
                             ),
                             Text(
                               "Amparito Orticio",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              "System Designer",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            Text(
-                              "Marvin Uneta",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              "Developers",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            Text(
-                              "Jaydee Moles",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            Text(
-                              "Maverick Malala",
                               style: TextStyle(fontSize: 16),
                             ),
                             SizedBox(height: 15),
