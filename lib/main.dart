@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "OATS Admin Site",
       debugShowCheckedModeBanner: false,
-      // home: HomePage(),
-      home: StatisticsPage(),
+      home: HomePage(),
+      // home: StatisticsPage(),
     );
   }
 }

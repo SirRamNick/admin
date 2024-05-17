@@ -73,7 +73,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     searchController = TextEditingController();
     searchStringQuery = '';
@@ -82,7 +81,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     searchController.dispose();
   }
@@ -320,7 +318,7 @@ class _HomePageState extends State<HomePage> {
                           label: Expanded(
                             // Sort by year graduated
                             child: searchStringQuery != ''
-                            ? Text(
+                            ? const Text(
                                 "Year Graduated",
                                 style: TextStyle(
                                   fontSize: 12,
@@ -388,9 +386,9 @@ class _HomePageState extends State<HomePage> {
                             (doc) => DataRow(
                               onSelectChanged: (selected) {
                                 if (selected == true) {
-                                  Navigator.pushReplacement(
+                                  Navigator.push(
                                       context,
-                                      instantTransitionTo(
+                                      normalTransitionTo(
                                         ProfilePage(document: doc),
                                       ));
                                 }

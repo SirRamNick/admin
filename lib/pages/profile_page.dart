@@ -40,7 +40,8 @@ class _ProfilePageState extends State<ProfilePage> {
     sex = doc['sex'];
     program = doc['program'];
     yearGraduated = doc['year_graduated'];
-    employmentStatus = doc['employment_status'] == true ? 'Employed' : 'Unemployed';
+    employmentStatus =
+        doc['employment_status'] == true ? 'Employed' : 'Unemployed';
   }
 
   @override
@@ -62,41 +63,36 @@ class _ProfilePageState extends State<ProfilePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextButton(
-                  onPressed: () => Navigator.pushReplacement(
-                    context,
-                    instantTransitionTo(HomePage())
-                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                   child: Text('Back'),
                 ),
                 TextButton(
                   onPressed: () => showDialog(
-                    context: context, 
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text("Confim Delete?"),
-                        content: Text("Are you sure you wanted to delete '$firstName $lastName' from the database?"),
-                        actions: [
-                          TextButton(
-                            child: Text("Cancel"),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          TextButton(
-                            child: Text("Yes"),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              alumniBase.deleteAlumnus(doc.id);
-                              Navigator.pushReplacement(
-                                context,
-                                instantTransitionTo(HomePage())
-                              );
-                            },
-                          ),
-                        ]
-                      );
-                    }
-                  ),
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                            title: Text("Confim Delete?"),
+                            content: Text(
+                                "Are you sure you wanted to delete '$firstName $lastName' from the database?"),
+                            actions: [
+                              TextButton(
+                                child: Text("Cancel"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: Text("Yes"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  alumniBase.deleteAlumnus(doc.id);
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ]);
+                      }),
                   child: Text('Delete'),
                 ),
               ],
