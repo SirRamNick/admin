@@ -4,6 +4,9 @@ class FirestoreService {
   final CollectionReference alumni =
       FirebaseFirestore.instance.collection('alumni');
 
+  final CollectionReference stats =
+      FirebaseFirestore.instance.collection('statistics');
+
   // Create
   Future addAlumnus(String firstName, String lastName, String program,
       int yearGraduated, String batch, String sex, bool employmentStatus) {

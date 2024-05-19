@@ -104,60 +104,60 @@ Drawer adminDrawer(BuildContext context) => Drawer(
                   onPressed: () {
                     Navigator.of(context).pop();
                     showAboutDialog(
-                      context: context,
-                      applicationName: 'OLOPSC Alumni Tracking System (Admin Site)',
-                      children: [
-                        const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Team Adviser",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                        context: context,
+                        applicationName:
+                            'OLOPSC Alumni Tracking System (Admin Site)',
+                        children: [
+                          const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Team Adviser",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
                               ),
-                            ),
-                            Text(
-                              "Rame Nicholas Tiongson",
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              "System Analyst/Developer",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                              Text(
+                                "Rame Nicholas Tiongson",
+                                style: TextStyle(fontSize: 18),
                               ),
-                            ),
-                            Text(
-                              "Rovic Xavier Aliman",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              "Documentations Specialist",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                              SizedBox(height: 10),
+                              Text(
+                                "System Analyst/Developer",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
                               ),
-                            ),
-                            Text(
-                              "Amparito Orticio",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            SizedBox(height: 15),
-                            Text(
-                              "(c) OLOPSC Computer Society 2024",
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            Text(
-                              "All rights reserved",
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ],
-                        ),
-                      ]
-                    );
+                              Text(
+                                "Rovic Xavier Aliman",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                "Documentations Specialist",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(
+                                "Amparito Orticio",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              SizedBox(height: 15),
+                              Text(
+                                "(c) OLOPSC Computer Society 2024",
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              Text(
+                                "All rights reserved",
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ],
+                          ),
+                        ]);
                   },
                   child: const Align(
                     alignment: Alignment.centerLeft,
