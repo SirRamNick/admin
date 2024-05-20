@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
       if (sortByNameAscending != null || sortByYearGraduatedAscending != null) {
         return secondSort(firstSort(alumniQuery));
       }
-      return alumniQuery;
+      return alumniQuery.orderBy('time_stamp', descending: true);
     }
 
     if (searchStringQuery != '') {

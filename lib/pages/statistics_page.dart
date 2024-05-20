@@ -42,27 +42,33 @@ class _StatisticsPageState extends State<StatisticsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Alumni Statistics",
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
+                const Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Alumni Statistics",
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                SizedBox(height: 30),
-                Text(
-                  "Surveyed Alumni Based on Year Graduated",
-                  style: TextStyle(
-                    fontSize: 20,
+                const SizedBox(height: 30),
+                const Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Surveyed Alumni Based on Year Graduated",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Container(
                   width: screenWidth,
                   height: screenHeight * 0.85,
                   child: Column(
                     children: [
-                      Row(
+                      const Row(
                         children: [
                           Text(
                             'Total number of Alumni',
@@ -89,11 +95,12 @@ class _StatisticsPageState extends State<StatisticsPage> {
                             final statsData = snapshot.data!;
                             return LineChart(
                               LineChartData(
+                                minY: 0,
                                 lineBarsData: [
                                   LineChartBarData(
                                     spots: statsData,
                                     isCurved: true,
-                                    gradient: LinearGradient(
+                                    gradient: const LinearGradient(
                                       colors: [
                                         Colors.cyan,
                                         Colors.blue,
@@ -120,6 +127,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                                 gridData: FlGridData(
                                   show: true,
                                   drawVerticalLine: true,
+                                  drawHorizontalLine: false,
                                   horizontalInterval: 1,
                                   verticalInterval: 1,
                                   getDrawingHorizontalLine: (value) {
@@ -157,7 +165,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                                   leftTitles: AxisTitles(
                                     sideTitles: SideTitles(
                                       showTitles: true,
-                                      interval: 1,
+                                      interval: 5,
                                       reservedSize: 42,
                                       getTitlesWidget: (value, meta) {
                                         final index =

@@ -36,7 +36,7 @@ FloatingActionButton profileHelpActionButton(BuildContext context) =>
                       style: TextStyle(fontSize: 18),
                     ),
                     subtitle: Text(
-                      "This is located at the top-right of",
+                      "This is located at the top-right corner of the screen. It lets you edit the information of the alumnus/alumna.",
                       style: TextStyle(fontSize: 15),
                     ),
                   ),
