@@ -1,16 +1,12 @@
-import 'dart:html';
-import 'dart:io';
+import 'dart:js' as js;
 
 import 'package:admin_app/components/page_transition.dart';
-import 'package:admin_app/pages/add_alumni_page.dart';
 import 'package:admin_app/pages/home_page.dart';
 import 'package:admin_app/pages/statistics_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 Drawer adminDrawer(BuildContext context) => Drawer(
-      backgroundColor: Color(0xFFE2E2E2),
+      backgroundColor: const Color(0xFFE2E2E2),
       child: Column(
         children: [
           Expanded(
@@ -54,12 +50,12 @@ Drawer adminDrawer(BuildContext context) => Drawer(
                 TextButton(
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.black,
-                    shape: LinearBorder(),
+                    shape: const LinearBorder(),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
                     Navigator.pushReplacement(
-                        context, instantTransitionTo(HomePage()));
+                        context, instantTransitionTo(const HomePage()));
                   },
                   child: const Align(
                     alignment: Alignment.centerLeft,
@@ -69,12 +65,14 @@ Drawer adminDrawer(BuildContext context) => Drawer(
                 TextButton(
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.black,
-                    shape: LinearBorder(),
+                    shape: const LinearBorder(),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    Navigator.pushReplacement(
-                        context, instantTransitionTo(AddAlumniPage()));
+                    js.context.callMethod(
+                      'open',
+                      ['https://olopsc-alumni-tracking-system.web.app/', '_blank'],
+                    );
                   },
                   child: const Align(
                     alignment: Alignment.centerLeft,
@@ -84,12 +82,12 @@ Drawer adminDrawer(BuildContext context) => Drawer(
                 TextButton(
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.black,
-                    shape: LinearBorder(),
+                    shape: const LinearBorder(),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
                     Navigator.pushReplacement(
-                        context, instantTransitionTo(StatisticsPage()));
+                        context, instantTransitionTo(const StatisticsPage()));
                   },
                   child: const Align(
                     alignment: Alignment.centerLeft,
@@ -99,7 +97,7 @@ Drawer adminDrawer(BuildContext context) => Drawer(
                 TextButton(
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.black,
-                    shape: LinearBorder(),
+                    shape: const LinearBorder(),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -112,7 +110,7 @@ Drawer adminDrawer(BuildContext context) => Drawer(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Team Adviser",
+                                "Team Adviser/Developer",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
@@ -144,6 +142,22 @@ Drawer adminDrawer(BuildContext context) => Drawer(
                               ),
                               Text(
                                 "Amparito Orticio",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                "Documentations Associates",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(
+                                "Jaydee Moles",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                "Marvin Uneta",
                                 style: TextStyle(fontSize: 16),
                               ),
                               SizedBox(height: 15),
@@ -190,9 +204,7 @@ Drawer adminDrawer(BuildContext context) => Drawer(
                         child: Image.network(
                           height: 30,
                           width: 30,
-                          // 'https://lh3.googleusercontent.com/d/1JCZpxJZo4on_pmzjHuZ3Ce936sCaVEwI',
-                          // 'https://lh3.googleusercontent.com/d/15SafJMjyBBCwbrMl7qhK2NPc_b-mpRrp',
-                          'https://lh3.googleusercontent.com/d/1Pz_SwGksX7CXTW-XV2-BQ3GntptnQM3y',
+                          'https://lh3.googleusercontent.com/d/1sq-wq-6VWSD6zMVU5QC6Uv1aT9mVbm-E',
                         ),
                       ),
                       const Text(

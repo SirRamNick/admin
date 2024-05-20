@@ -25,23 +25,42 @@ class _ProfilePageState extends State<ProfilePage> {
   late final DocumentSnapshot doc;
   late final String firstName;
   late final String lastName;
+  late final String middleName;
+  late final String email;
   late final String sex;
   late final String program;
   late final int yearGraduated;
   late final String employmentStatus;
+  late final String occupation;
+  late final String dateOfBirth;
+  late final String question1;
+  late final String question2;
+  late final String question3;
+  late final String question4;
+  late final String question5;
+  late final String question6;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     doc = widget.document;
     firstName = doc['first_name'];
     lastName = doc['last_name'];
+    middleName = doc['middle_name'];
+    email = doc['email'];
     sex = doc['sex'];
     program = doc['program'];
     yearGraduated = doc['year_graduated'];
     employmentStatus =
         doc['employment_status'] == true ? 'Employed' : 'Unemployed';
+    occupation = doc['occupation'];
+    dateOfBirth = doc['date_of_birth'];
+    question1 = doc['question_1'];
+    question2 = doc['question_2'];
+    question3 = doc['question_3'];
+    question4 = doc['question_4'];
+    question5 = doc['question_5'];
+    question6 = doc['question_6'];
   }
 
   @override
@@ -51,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
       drawer: adminDrawer(context),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
           child: Column(
             children: [
               Row(
@@ -71,7 +90,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     style: TextButton.styleFrom(
                       backgroundColor: const Color(0xFF1D4695),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
                       padding: const EdgeInsets.only(
                         left: 8,
                         top: 10,
@@ -80,33 +100,34 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  TextButton.icon(
-                    onPressed: () {
-                      // TODO: Implement Edit Button
-                    },
-                    icon: const Padding(
-                      padding: EdgeInsets.only(right: 6),
-                      child: Icon(
-                        Icons.edit,
-                        color: Colors.white,
-                        size: 16,
-                      ),
-                    ),
-                    label: const Text(
-                      "Edit",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor: const Color(0xFF1D4695),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      padding: const EdgeInsets.only(
-                        left: 15,
-                        top: 10,
-                        right: 18,
-                        bottom: 10,
-                      ),
-                    ),
-                  ),
+                  // TextButton.icon(
+                  //   onPressed: () {
+                  //     // TODO: Implement Edit Button
+                  //   },
+                  //   icon: const Padding(
+                  //     padding: EdgeInsets.only(right: 6),
+                  //     child: Icon(
+                  //       Icons.edit,
+                  //       color: Colors.white,
+                  //       size: 16,
+                  //     ),
+                  //   ),
+                  //   label: const Text(
+                  //     "Edit",
+                  //     style: TextStyle(color: Colors.white),
+                  //   ),
+                  //   style: TextButton.styleFrom(
+                  //     backgroundColor: const Color(0xFF1D4695),
+                  //     shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(10)),
+                  //     padding: const EdgeInsets.only(
+                  //       left: 15,
+                  //       top: 10,
+                  //       right: 18,
+                  //       bottom: 10,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               const Text(
@@ -116,62 +137,288 @@ class _ProfilePageState extends State<ProfilePage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "First Name",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                firstName,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Middle Name",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                middleName,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Last Name",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                lastName,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Sex",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                sex,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Date of Birth",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                dateOfBirth,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Email",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                email,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Year Graduated",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                "$yearGraduated",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Program",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                program,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Employment",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                employmentStatus == true
+                                    ? occupation
+                                    : "Unemployed",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Are you satisfied with your current status?",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                question1,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Were you employed within the year of your graduation?",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                question2,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "How relevant was the program to your job post-graduation?",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                question3,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Did the program help in applying for your current occupation?",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                question4,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Did the program provide the necessary skills needed for your current job?",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                question5,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "What were the necessary skills you acquired from the program needed for your current job?",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                question6,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ],
           ),
         ),
       ),
-      // body: Center(
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: [
-      //       Text("First Name: $firstName"),
-      //       Text("Last Name: $lastName"),
-      //       Text("Sex: $sex"),
-      //       Text("Program: $program"),
-      //       Text("Year Graduated: $yearGraduated"),
-      //       Text("Employment Status: $employmentStatus"),
-      //       Row(
-      //         mainAxisAlignment: MainAxisAlignment.center,
-      //         children: [
-      //           TextButton(
-      //             onPressed: () {
-      //               Navigator.of(context).pop();
-      //             },
-      //             child: Text('Back'),
-      //           ),
-      //           TextButton(
-      //             onPressed: () => showDialog(
-      //                 context: context,
-      //                 builder: (context) {
-      //                   return AlertDialog(
-      //                       title: Text("Confim Delete?"),
-      //                       content: Text(
-      //                           "Are you sure you wanted to delete '$firstName $lastName' from the database?"),
-      //                       actions: [
-      //                         TextButton(
-      //                           child: Text("Cancel"),
-      //                           onPressed: () {
-      //                             Navigator.of(context).pop();
-      //                           },
-      //                         ),
-      //                         TextButton(
-      //                           child: Text("Yes"),
-      //                           onPressed: () {
-      //                             Navigator.of(context).pop();
-      //                             alumniBase.deleteAlumnus(doc.id);
-      //                             Navigator.of(context).pop();
-      //                           },
-      //                         ),
-      //                       ]);
-      //                 }),
-      //             child: Text('Delete'),
-      //           ),
-      //         ],
-      //       ),
-      //     ],
-      //   ),
-      // ),
-      floatingActionButton: profileHelpActionButton(context),
+      // floatingActionButton: profileHelpActionButton(context),
     );
   }
 }
