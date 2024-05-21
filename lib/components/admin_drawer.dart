@@ -2,11 +2,10 @@ import 'dart:js' as js;
 
 import 'package:admin_app/components/page_transition.dart';
 import 'package:admin_app/pages/home_page.dart';
-import 'package:admin_app/pages/statistics_page.dart';
+import 'package:admin_app/pages/analytics_page.dart';
 import 'package:flutter/material.dart';
 
 Drawer adminDrawer(BuildContext context) => Drawer(
-      backgroundColor: const Color(0xFFE2E2E2),
       child: Column(
         children: [
           Expanded(
@@ -87,7 +86,7 @@ Drawer adminDrawer(BuildContext context) => Drawer(
                   onPressed: () {
                     Navigator.of(context).pop();
                     Navigator.pushReplacement(
-                        context, instantTransitionTo(const StatisticsPage()));
+                        context, instantTransitionTo(const AnalyticsPage()));
                   },
                   child: const Align(
                     alignment: Alignment.centerLeft,
