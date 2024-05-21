@@ -2,7 +2,7 @@ import 'dart:js' as js;
 
 import 'package:admin_app/components/page_transition.dart';
 import 'package:admin_app/pages/home_page.dart';
-import 'package:admin_app/pages/statistics_page.dart';
+import 'package:admin_app/pages/analytics_page.dart';
 import 'package:flutter/material.dart';
 
 Drawer adminDrawer(BuildContext context) => Drawer(
@@ -71,7 +71,10 @@ Drawer adminDrawer(BuildContext context) => Drawer(
                     Navigator.of(context).pop();
                     js.context.callMethod(
                       'open',
-                      ['https://olopsc-alumni-tracking-system.web.app/', '_blank'],
+                      [
+                        'https://olopsc-alumni-tracking-system.web.app/',
+                        '_blank'
+                      ],
                     );
                   },
                   child: const Align(
