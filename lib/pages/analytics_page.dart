@@ -1,6 +1,7 @@
 import 'package:admin_app/components/admin_appbar.dart';
 import 'package:admin_app/components/admin_drawer.dart';
-import 'package:admin_app/components/charts/pie_chart.dart';
+import 'package:admin_app/components/charts/pie_chart_1.dart';
+import 'package:admin_app/components/charts/pie_chart_2.dart';
 import 'package:admin_app/services/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -63,9 +64,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                           ),
                         ),
                         Expanded(
-                          child: OlopscPieChart(
-                            stream: stats.stats.snapshots(),
-                          ),
+                          child: OlopscPieChart2(),
                         ),
                       ],
                     ),

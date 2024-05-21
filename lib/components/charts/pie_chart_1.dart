@@ -26,78 +26,63 @@ class _OlopscPieChartState extends State<OlopscPieChart> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.3,
-      child: Row(
-        children: [
-          const SizedBox(
-            height: 18,
-          ),
-          Expanded(
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: StreamBuilder(
-                  stream: widget.stream,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    }
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    final data = snapshot.data!.docs;
+      aspectRatio: 1,
+      child: StreamBuilder(
+          stream: widget.stream,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            }
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            final data = snapshot.data!.docs;
 
-                    final List<PieChartSectionData> pieChartData =
-                        List.generate(data.length, (index) {
-                      final isTouched = index == touchedIndex;
-                      final fontSize = isTouched ? 25.0 : 16.0;
-                      final radius = isTouched ? 300.0 : 250.0;
-                      final color = isTouched ? Colors.black : Colors.white;
-                      const shadow = [
-                        Shadow(color: Colors.black, blurRadius: 2)
-                      ];
+            final List<PieChartSectionData> pieChartData =
+                List.generate(data.length, (index) {
+              final isTouched = index == touchedIndex;
+              final fontSize = isTouched ? 25.0 : 16.0;
+              final radius = isTouched ? 300.0 : 250.0;
+              final color = isTouched ? Colors.black : Colors.white;
+              const shadow = [Shadow(color: Colors.black, blurRadius: 2)];
 
-                      return PieChartSectionData(
-                        color:
-                            Colors.primaries[index % Colors.primaries.length],
-                        value: data[index]['value'],
-                        title: data[index]['year'].toString(),
-                        radius: radius,
-                        titleStyle: TextStyle(
-                          fontSize: fontSize,
-                          fontWeight: FontWeight.bold,
-                          color: color,
-                          shadows: shadow,
-                        ),
-                      );
-                    });
-                    return PieChart(
-                      PieChartData(
-                        pieTouchData: PieTouchData(touchCallback:
-                            (FlTouchEvent event, pieTouchResponse) {
-                          setState(() {
-                            if (!event.isInterestedForInteractions ||
-                                pieTouchResponse == null ||
-                                pieTouchResponse.touchedSection == null) {
-                              touchedIndex = -1;
-                              return;
-                            }
-                            touchedIndex = pieTouchResponse
-                                .touchedSection!.touchedSectionIndex;
-                          });
-                        }),
-                        borderData: FlBorderData(show: false),
-                        sectionsSpace: 0,
-                        centerSpaceRadius: 20,
-                        sections: pieChartData,
-                      ),
-                    );
-                  }),
-            ),
-          ),
-        ],
-      ),
+              return PieChartSectionData(
+                color: Colors.primaries[index % Colors.primaries.length],
+                value: data[index]['value'],
+                title: data[index]['year'].toString(),
+                radius: radius,
+                titleStyle: TextStyle(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.bold,
+                  color: color,
+                  shadows: shadow,
+                ),
+              );
+            });
+            return PieChart(
+              PieChartData(
+                pieTouchData: PieTouchData(
+                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                  setState(() {
+                    if (!event.isInterestedForInteractions ||
+                        pieTouchResponse == null ||
+                        pieTouchResponse.touchedSection == null) {
+                      touchedIndex = -1;
+                      return;
+                    }
+                    touchedIndex =
+                        pieTouchResponse.touchedSection!.touchedSectionIndex;
+                  });
+                }),
+                borderData: FlBorderData(show: false),
+                sectionsSpace: 0,
+                centerSpaceRadius: 20,
+                sections: pieChartData,
+              ),
+            );
+          }),
     );
   }
 }
