@@ -7,14 +7,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class StatisticsPage extends StatefulWidget {
-  const StatisticsPage({super.key});
+class AnalyticsPage extends StatefulWidget {
+  const AnalyticsPage({super.key});
 
   @override
-  State<StatisticsPage> createState() => _StatisticsPageState();
+  State<AnalyticsPage> createState() => _AnalyticsPageState();
 }
 
-class _StatisticsPageState extends State<StatisticsPage> {
+class _AnalyticsPageState extends State<AnalyticsPage> {
   late final FirestoreService stats = FirestoreService();
 
   @override
@@ -36,7 +36,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                 const Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "Alumni Statistics",
+                    "Analytics",
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
