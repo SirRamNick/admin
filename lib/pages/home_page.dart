@@ -489,9 +489,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   DataCell(
                                     Text(
-                                      doc['employment_status']
-                                          ? 'Employed'
-                                          : 'Unemployed',
+                                      doc['employment_status'],
                                       style: const TextStyle(fontSize: 16),
                                     ),
                                   ),

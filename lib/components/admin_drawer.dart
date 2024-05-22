@@ -93,7 +93,7 @@ Drawer adminDrawer(BuildContext context) => Drawer(
                   },
                   child: const Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Statistics"),
+                    child: Text("Analytics"),
                   ),
                 ),
                 TextButton(

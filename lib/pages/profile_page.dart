@@ -27,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
   late final String sex;
   late final String program;
   late final int yearGraduated;
-  late final bool employmentStatus;
+  late final String employmentStatus;
   late final String occupation;
   late final String dateOfBirth;
   late final String question1;
@@ -294,9 +294,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         style: TextStyle(fontSize: 15),
                                       ),
                                       Text(
-                                        employmentStatus == true
-                                            ? occupation
-                                            : "Unemployed",
+                                        "$employmentStatus",
                                         style: TextStyle(fontSize: 20),
                                       ),
                                     ],
