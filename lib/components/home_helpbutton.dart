@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 FloatingActionButton homeHelpActionButton(BuildContext context) =>
     FloatingActionButton.extended(
-      backgroundColor: Color(0xFFFFD22F),
-      foregroundColor: Colors.black,
-      label: Text("Help"),
-      icon: Icon(Icons.help),
+      backgroundColor: Theme.of(context).primaryColor,
+      label: Text(
+        "Help",
+        style: Theme.of(context).primaryTextTheme.bodyMedium,
+      ),
+      icon: Icon(
+        Icons.help,
+        color: Theme.of(context).primaryTextTheme.bodyMedium?.color,
+      ),
       onPressed: () {
         showDialog(
           context: context,
