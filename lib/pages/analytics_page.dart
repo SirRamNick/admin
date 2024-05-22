@@ -1,10 +1,7 @@
 import 'package:admin_app/components/admin_appbar.dart';
 import 'package:admin_app/components/admin_drawer.dart';
-import 'package:admin_app/components/charts/pie_chart_1.dart';
-import 'package:admin_app/components/charts/pie_chart_2.dart';
+import 'package:admin_app/components/charts/bar_chart.dart';
 import 'package:admin_app/services/firebase.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class AnalyticsPage extends StatefulWidget {
@@ -53,22 +50,18 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 100),
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: OlopscPieChart(
-                            stream: stats.stats.snapshots(),
-                          ),
-                        ),
-                        Expanded(
-                          child: OlopscPieChart2(),
-                        ),
-                      ],
-                    ),
-                  ],
+                const SizedBox(height: 10),
+                OlopscBarChart(
+                  collectionName: 'question_2',
+                ),
+                OlopscBarChart(
+                  collectionName: 'question_3',
+                ),
+                OlopscBarChart(
+                  collectionName: 'question_5',
+                ),
+                OlopscBarChart(
+                  collectionName: 'question_6',
                 ),
               ],
             ),
