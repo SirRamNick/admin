@@ -1,7 +1,6 @@
 import 'package:admin_app/components/admin_appbar.dart';
 import 'package:admin_app/components/admin_drawer.dart';
 import 'package:admin_app/components/charts/bar_chart.dart';
-import 'package:admin_app/components/charts/pie_chart_1.dart';
 import 'package:admin_app/services/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -53,10 +52,18 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                // OlopscPieChart(
-                //     stream: FirebaseFirestore.instance
-                //         .collection('alumni_by_year')
-                //         .snapshots()),
+                Center(
+                  child: FutureBuilder(
+                    future:
+                        FirebaseFirestore.instance.collection('alumni').get(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Container();
+                      }
+                      return Text(snapshot.data!.docs.length.toString());
+                    },
+                  ),
+                ),
                 OlopscBarChart(
                   collectionName: 'question_2',
                   questionName: 'Relevance',
