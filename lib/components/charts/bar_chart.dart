@@ -69,80 +69,82 @@ class OlopscBarChartState extends State<OlopscBarChart> {
         child: Column(
           children: [
             Tooltip(
+              message: widget.toolTip,
               child: Text(
                 widget.questionName,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 35,
                 ),
               ),
-              message: widget.toolTip,
             ),
             const SizedBox(
               height: 6,
             ),
             Card(
               child: SizedBox(
-                width: MediaQuery.of(context).size.width / 4,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          f_state = field_state[0];
-                        });
-                      },
-                      child: Text(
-                        'Strongly Agree',
-                        style: TextStyle(color: barColors1[0]),
+                width: 1000,
+                child: Flexible(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            f_state = field_state[0];
+                          });
+                        },
+                        child: Text(
+                          'Strongly Agree',
+                          style: TextStyle(color: barColors1[0]),
+                        ),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          f_state = field_state[1];
-                        });
-                      },
-                      child: Text(
-                        'Agree',
-                        style: TextStyle(color: barColors1[1]),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            f_state = field_state[1];
+                          });
+                        },
+                        child: Text(
+                          'Agree',
+                          style: TextStyle(color: barColors1[1]),
+                        ),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          f_state = field_state[2];
-                        });
-                      },
-                      child: Text(
-                        'Neutral',
-                        style: TextStyle(color: barColors1[2]),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            f_state = field_state[2];
+                          });
+                        },
+                        child: Text(
+                          'Neutral',
+                          style: TextStyle(color: barColors1[2]),
+                        ),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          f_state = field_state[3];
-                        });
-                      },
-                      child: Text(
-                        'Disagree',
-                        style: TextStyle(color: barColors1[3]),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            f_state = field_state[3];
+                          });
+                        },
+                        child: Text(
+                          'Disagree',
+                          style: TextStyle(color: barColors1[3]),
+                        ),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          f_state = field_state[4];
-                        });
-                      },
-                      child: Text(
-                        'Strongly Disagree',
-                        style: TextStyle(color: barColors1[4]),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            f_state = field_state[4];
+                          });
+                        },
+                        child: Text(
+                          'Strongly Disagree',
+                          style: TextStyle(color: barColors1[4]),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -170,7 +172,7 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                         final barsWidth = 8.0 * constraints.maxWidth / 400;
                         return BarChart(
                           BarChartData(
-                            maxY: 600,
+                            maxY: 300,
                             backgroundColor: Color(0xFF0B085F),
                             alignment: BarChartAlignment.spaceAround,
                             barTouchData: BarTouchData(
@@ -256,6 +258,7 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                     );
                   }),
             ),
+            const SizedBox(height: 50)
           ],
         ),
       ),
