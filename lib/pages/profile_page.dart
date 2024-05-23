@@ -46,8 +46,10 @@ class _ProfilePageState extends State<ProfilePage> {
     middleName = doc['middle_name'];
     email = doc['email'];
     sex = doc['sex'];
-    program = doc['program'];
-    yearGraduated = doc['year_graduated'];
+    program = doc['degree'];
+    yearGraduated = doc['year_graduated'].runtimeType == String
+        ? int.tryParse(doc['year_graduated'])
+        : doc['year_graduated'];
     employmentStatus = doc['employment_status'];
     occupation = doc['occupation'];
     dateOfBirth = doc['date_of_birth'];
@@ -66,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
       drawer: adminDrawer(context),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               Row(
@@ -98,18 +100,52 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   TextButton.icon(
                     onPressed: () {
-                      
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Align(
+                            alignment: Alignment.topCenter,
+                            child: Text(
+                              "Confirm Delete",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          content: Text(
+                            "Delete '$firstName $lastName'?",
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                alumniBase.deleteAlumnus('${doc.id}');
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text("Yes"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text("No"),
+                            ),
+                          ],
+                        ),
+                      );
                     },
                     icon: const Padding(
                       padding: EdgeInsets.only(right: 6),
                       child: Icon(
-                        Icons.edit,
+                        Icons.delete,
                         color: Colors.white,
                         size: 16,
                       ),
                     ),
                     label: const Text(
-                      "Edit",
+                      "Delete",
                       style: TextStyle(color: Colors.white),
                     ),
                     style: TextButton.styleFrom(
@@ -130,292 +166,290 @@ class _ProfilePageState extends State<ProfilePage> {
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: [
-                      const Text(
-                        "Alumni Profile",
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
+                  child: Column(children: [
+                    const Text(
+                      "Alumni Profile",
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "First Name",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      Text(
-                                        firstName,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
+                    ),
+                    const SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "First Name",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      firstName,
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 10),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Middle Name",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      Text(
-                                        middleName,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                              const SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Middle Name",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      middleName,
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 10),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Last Name",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      Text(
-                                        lastName,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                              const SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Last Name",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      lastName,
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 10),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Sex",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      Text(
-                                        sex,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                              const SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Sex",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      sex,
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 10),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Date of Birth",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      Text(
-                                        dateOfBirth,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                              const SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Date of Birth",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      dateOfBirth,
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 10),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Email",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      Text(
-                                        email,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                              const SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Email",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      email,
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 10),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Year Graduated",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      Text(
-                                        "$yearGraduated",
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                              const SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Year Graduated",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      "$yearGraduated",
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 10),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Program",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      Text(
-                                        program,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                              const SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Program",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      program,
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 10),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Employment",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      Text(
-                                        "$employmentStatus",
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                              const SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Employment",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      employmentStatus,
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Are you satisfied with your current status?",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      Text(
-                                        question1,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "What are the life skills OLOPSC has taught you?",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      question1,
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 10),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Were you employed within the year of your graduation?",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      Text(
-                                        question2,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                              const SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "The skills you've mentioned helped you in pursuing your career path.",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      question2,
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 10),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "How relevant was the program to your job post-graduation?",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      Text(
-                                        question3,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                              const SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Your first job aligns with your current job.",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      question3,
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 10),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Did the program help in applying for your current occupation?",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      Text(
-                                        question4,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                              const SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "How long does it take for you to land your first job after graduation?",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      question4,
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 10),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Did the program provide the necessary skills needed for your current job?",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      Text(
-                                        question5,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                              const SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "The program you took in OLOPSC matches your current job.",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      question5,
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 10),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "What were the necessary skills you acquired from the program needed for your current job?",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      Text(
-                                        question6,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                              const SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "You are satisfied with your current job.",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      question6,
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ]
-                  ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ]),
                 ),
               )
             ],

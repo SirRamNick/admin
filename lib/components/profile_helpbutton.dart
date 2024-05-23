@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 FloatingActionButton profileHelpActionButton(BuildContext context) =>
     FloatingActionButton.extended(
-      backgroundColor: Color(0xFFFFD22F),
+      backgroundColor: const Color(0xFFFFD22F),
       foregroundColor: Colors.black,
-      label: Text("Help"),
-      icon: Icon(Icons.help),
+      label: const Text("Help"),
+      icon: const Icon(Icons.help),
       onPressed: () {
         showDialog(
           context: context,

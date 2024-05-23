@@ -1,9 +1,11 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class OlopscBarChart extends StatefulWidget {
   final String collectionName;
+
   final String questionName;
   final String toolTip;
   OlopscBarChart({
@@ -200,13 +202,13 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                                     final course =
                                         data[value.toInt()]['degree'];
                                     return SideTitleWidget(
-                                      child: Text(course),
                                       axisSide: meta.axisSide,
+                                      child: Text(course),
                                     );
                                   },
                                 ),
                               ),
-                              leftTitles: AxisTitles(
+                              leftTitles: const AxisTitles(
                                 sideTitles: SideTitles(
                                   showTitles: false,
                                 ),
@@ -218,7 +220,7 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                                 sideTitles: SideTitles(showTitles: false),
                               ),
                             ),
-                            gridData: FlGridData(
+                            gridData: const FlGridData(
                               show: false,
                             ),
                             borderData: FlBorderData(

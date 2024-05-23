@@ -25,13 +25,13 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       drawer: adminDrawer(context),
       backgroundColor: const Color(0xFFFFD22F),
       body: ListView(
-        children: [
+        children: const [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Align(
+                Align(
                   alignment: Alignment.center,
                   child: Text(
                     "Analytics",
@@ -41,8 +41,8 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
-                const Align(
+                SizedBox(height: 30),
+                Align(
                   alignment: Alignment.center,
                   child: Text(
                     "Surveyed Alumni Based on Year Graduated",

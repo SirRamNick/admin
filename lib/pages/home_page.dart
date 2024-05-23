@@ -6,6 +6,7 @@ import 'package:admin_app/pages/profile_page.dart';
 import 'package:admin_app/services/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 enum SearchBy {
@@ -28,6 +29,7 @@ class _HomePageState extends State<HomePage> {
   late SearchBy searchParam;
   bool? sortByNameAscending;
   bool? sortByYearGraduatedAscending;
+  int? alumniCount;
 
   PopupMenuItem degreePopupMenuItem(
           String degree, String searchStringForDegree) =>
@@ -80,11 +82,8 @@ class _HomePageState extends State<HomePage> {
           return applySort().where('last_name', isEqualTo: '');
         }
       } else if (selected == SearchBy.program) {
-        return applySort().where('program', isEqualTo: searchStringQuery);
+        return applySort().where('degree', isEqualTo: searchStringQuery);
       }
-    } else if (sortByNameAscending == null &&
-        sortByNameAscending == sortByYearGraduatedAscending) {
-      return applySort().orderBy('time_stamp', descending: true);
     }
     return applySort();
   }
@@ -254,6 +253,7 @@ class _HomePageState extends State<HomePage> {
                       child: Text("Search by year graduated"),
                     ),
                     PopupMenuItem(
+                      key: degreePopupMenu,
                       value: SearchBy.program,
                       child: const Text("Search by degree"),
                       onTap: () {
@@ -262,35 +262,66 @@ class _HomePageState extends State<HomePage> {
                           position: const RelativeRect.fromLTRB(
                               double.infinity, double.infinity, 0, 0),
                           items: [
-                            degreePopupMenuItem("BS Computer Science",
-                                "BS in Computer Science"),
                             degreePopupMenuItem(
-                                "Associate in Computer Technology",
-                                "Associate in Computer Technology"),
+                              "BS Computer Science",
+                              // "BS in Computer Science",
+                              "BSCS",
+                            ),
                             degreePopupMenuItem(
-                                "BEEd Major in General Education",
-                                "Bachelor in Elementary Education Major in General Education"),
-                            degreePopupMenuItem("BSEd Major in English",
-                                "Bachelor Secondary Education Major in English "),
-                            degreePopupMenuItem("BSEd Major in Mathematics",
-                                "Bachelor Secondary Education Major in Mathematics "),
-                            degreePopupMenuItem("Bachelor of Arts in English",
-                                "Bachelor of Arts in English "),
+                              "Associate in Computer Technology",
+                              // "Associate in Computer Technology",
+                              "ACT",
+                            ),
                             degreePopupMenuItem(
-                                "BSBA Major in Marketing Management",
-                                "BS in Business Administration Major in Marketing Management "),
+                              "BEEd Major in General Education",
+                              // "Bachelor in Elementary Education Major in General Education",
+                              "BEEd-GE",
+                            ),
                             degreePopupMenuItem(
-                                "BSBA Major in Human Resource Management",
-                                "BS in Business Administration Major in Human Resource Management"),
-                            degreePopupMenuItem("BS Entrepreneurship",
-                                "BS in Entrepreneurship"),
+                              "BSEd Major in English",
+                              // "Bachelor Secondary Education Major in English ",
+                              "BSEd-English",
+                            ),
                             degreePopupMenuItem(
-                                "BS Hospitality Management/Hotel and Restaurant Management",
-                                "BS in Hospitality Management / Hotel and Restaurant Management"),
-                            degreePopupMenuItem("BS Tourism Management",
-                                "BS in Tourism Management"),
-                            degreePopupMenuItem("Teacher Certificate Program",
-                                "Teacher Certificate Program"),
+                              "BSEd Major in Mathematics",
+                              // "Bachelor Secondary Education Major in Mathematics ",
+                              "BSEd-Math",
+                            ),
+                            degreePopupMenuItem(
+                              "Bachelor of Arts in English",
+                              // "Bachelor of Arts in English ",
+                              "AB English",
+                            ),
+                            degreePopupMenuItem(
+                              "BSBA Major in Marketing Management",
+                              // "BS in Business Administration Major in Marketing Management ",
+                              "BSBA-MM",
+                            ),
+                            degreePopupMenuItem(
+                              "BSBA Major in Human Resource Management",
+                              // "BS in Business Administration Major in Human Resource Management",
+                              "BSBA-HRM",
+                            ),
+                            degreePopupMenuItem(
+                              "BS Entrepreneurship",
+                              // "BS in Entrepreneurship",
+                              "BS Entrep",
+                            ),
+                            degreePopupMenuItem(
+                              "BS Hospitality Management/Hotel and Restaurant Management",
+                              // "BS in Hospitality Management / Hotel and Restaurant Management",
+                              "BSHM/BSHRM",
+                            ),
+                            degreePopupMenuItem(
+                              "BS Tourism Management",
+                              // "BS in Tourism Management",
+                              "BSTM",
+                            ),
+                            degreePopupMenuItem(
+                              "Teacher Certificate Program",
+                              // "Teacher Certificate Program",
+                              "TCP",
+                            ),
                           ],
                         );
                       },
@@ -299,6 +330,35 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ],
+          ),
+          StreamBuilder(
+            stream: alumniBase.alumni.snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 17.0),
+                  child: Card(
+                    child: ListTile(
+                      title: Text(searchStringQuery == ''
+                          ? "Total Surveyed Alumni"
+                          : "Displayed Alumni Count"),
+                      subtitle: const Text("Loading..."),
+                    ),
+                  ),
+                );
+              }
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 17.0),
+                child: Card(
+                  child: ListTile(
+                    title: Text(searchStringQuery == ''
+                        ? "Total Surveyed Alumni"
+                        : "Displayed Alumni Count"),
+                    subtitle: Text("${snapshot.data!.docs.length}"),
+                  ),
+                ),
+              );
+            }
           ),
           // Alumni List
           Padding(
@@ -312,6 +372,7 @@ class _HomePageState extends State<HomePage> {
               stream: getAlumniQuery(searchParam).snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
+                  alumniCount = snapshot.data!.docs.length;
                   List alumniList = snapshot.data!.docs;
                   return SizedBox(
                     width: screenWidth,
@@ -385,7 +446,7 @@ class _HomePageState extends State<HomePage> {
                           const DataColumn(
                             label: Expanded(
                               child: Text(
-                                "Program",
+                                "Degree",
                                 style: TextStyle(fontSize: 12),
                               ),
                             ),
@@ -450,58 +511,59 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ],
-                        rows: alumniList
-                            .map(
-                              (doc) => DataRow(
-                                onSelectChanged: (selected) {
-                                  if (selected == true) {
-                                    Navigator.push(
-                                        context,
-                                        normalTransitionTo(
-                                          ProfilePage(document: doc),
-                                        ));
-                                  }
-                                },
-                                cells: [
-                                  DataCell(
-                                    Text(
-                                      '${doc['last_name'].toString().toUpperCase()}, ${doc['first_name']}',
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
+                        rows: alumniList.map(
+                          (doc) {
+                            return DataRow(
+                              onSelectChanged: (selected) {
+                                if (selected == true) {
+                                  Navigator.push(
+                                      context,
+                                      normalTransitionTo(
+                                        ProfilePage(document: doc),
+                                      ));
+                                }
+                              },
+                              cells: [
+                                DataCell(
+                                  Text(
+                                    '${doc['last_name'].toString().toUpperCase()}, ${doc['first_name']}',
+                                    style: const TextStyle(fontSize: 16),
                                   ),
-                                  DataCell(
-                                    Text(
-                                      doc['sex'],
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    doc['sex'],
+                                    style: const TextStyle(fontSize: 16),
                                   ),
-                                  DataCell(
-                                    Text(
-                                      doc['program'],
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    doc['degree'],
+                                    style: const TextStyle(fontSize: 16),
                                   ),
-                                  DataCell(
-                                    Text(
-                                      '${doc['year_graduated']}',
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    '${doc['year_graduated']}',
+                                    style: const TextStyle(fontSize: 16),
                                   ),
-                                  DataCell(
-                                    Text(
-                                      doc['employment_status'],
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    doc['employment_status'],
+                                    style: const TextStyle(fontSize: 16),
                                   ),
-                                ],
-                              ),
-                            )
-                            .toList(),
+                                ),
+                              ],
+                            );
+                          },
+                        ).toList(),
                       ),
                     ),
                   );
                 } else if (snapshot.connectionState ==
                     ConnectionState.waiting) {
+                  alumniCount = null;
                   return const Center(
                     child: SpinKitFadingCircle(
                       color: Colors.black,
