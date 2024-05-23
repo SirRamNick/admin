@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -171,7 +170,7 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                         final barsWidth = 8.0 * constraints.maxWidth / 400;
                         return BarChart(
                           BarChartData(
-                            maxY: 1200,
+                            maxY: 600,
                             backgroundColor: Color(0xFF0B085F),
                             alignment: BarChartAlignment.spaceAround,
                             barTouchData: BarTouchData(

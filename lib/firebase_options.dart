@@ -53,12 +53,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAyxJjtGn6afK8h5LPrOEz2yuBV9EIfW3Q',
-    appId: '1:949695353548:web:95a3d9dd4890123c136869',
-    messagingSenderId: '949695353548',
-    projectId: 'olopsc-alumni-tracking-system',
-    authDomain: 'olopsc-alumni-tracking-system.firebaseapp.com',
-    storageBucket: 'olopsc-alumni-tracking-system.appspot.com',
-    measurementId: 'G-0BRYH4NFVW',
+    apiKey: 'AIzaSyBr64lJI6MhV7b5CXpofBeQTMLf_Ga-xO4',
+    appId: '1:1052193293544:web:a46cd39efc518c2b9db55d',
+    messagingSenderId: '1052193293544',
+    projectId: 'oats-project-60d02',
+    authDomain: 'oats-project-60d02.firebaseapp.com',
+    storageBucket: 'oats-project-60d02.appspot.com',
   );
 }

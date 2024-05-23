@@ -25,7 +25,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       drawer: adminDrawer(context),
       backgroundColor: const Color(0xFFFFD22F),
       body: ListView(
-        children: const [
+        children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
