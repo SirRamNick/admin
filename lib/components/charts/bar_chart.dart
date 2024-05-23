@@ -1,13 +1,11 @@
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class OlopscBarChart extends StatefulWidget {
   final String collectionName;
-  OlopscBarChart({
+  const OlopscBarChart({
     super.key,
     required this.collectionName,
   });
@@ -62,7 +60,7 @@ class OlopscBarChartState extends State<OlopscBarChart> {
   //   );
   // }
 
-  LinearGradient get _barsGradient => LinearGradient(
+  LinearGradient get _barsGradient => const LinearGradient(
         colors: [
           Colors.blue,
           Colors.cyan,
@@ -112,7 +110,7 @@ class OlopscBarChartState extends State<OlopscBarChart> {
         width: MediaQuery.of(context).size.width / 1.5,
         child: Column(
           children: [
-            Text(
+            const Text(
               'Question',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -134,7 +132,7 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                           f_state = field_state[0];
                         });
                       },
-                      child: Text('Strongly Agree'),
+                      child: const Text('Strongly Agree'),
                     ),
                     TextButton(
                       onPressed: () {
@@ -142,7 +140,7 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                           f_state = field_state[1];
                         });
                       },
-                      child: Text('Agree'),
+                      child: const Text('Agree'),
                     ),
                     TextButton(
                       onPressed: () {
@@ -150,7 +148,7 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                           f_state = field_state[2];
                         });
                       },
-                      child: Text('Neutral'),
+                      child: const Text('Neutral'),
                     ),
                     TextButton(
                       onPressed: () {
@@ -158,7 +156,7 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                           f_state = field_state[3];
                         });
                       },
-                      child: Text('Disagree'),
+                      child: const Text('Disagree'),
                     ),
                     TextButton(
                       onPressed: () {
@@ -166,7 +164,7 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                           f_state = field_state[4];
                         });
                       },
-                      child: Text('Strongly Disagree'),
+                      child: const Text('Strongly Disagree'),
                     ),
                   ],
                 ),
@@ -227,13 +225,13 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                                     final course =
                                         data[value.toInt()]['degree'];
                                     return SideTitleWidget(
-                                      child: Text(course),
                                       axisSide: meta.axisSide,
+                                      child: Text(course),
                                     );
                                   },
                                 ),
                               ),
-                              leftTitles: AxisTitles(
+                              leftTitles: const AxisTitles(
                                 sideTitles: SideTitles(
                                   showTitles: false,
                                 ),
@@ -245,7 +243,7 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                                 sideTitles: SideTitles(showTitles: false),
                               ),
                             ),
-                            gridData: FlGridData(
+                            gridData: const FlGridData(
                               show: false,
                             ),
                             borderData: FlBorderData(

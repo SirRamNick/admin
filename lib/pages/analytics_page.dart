@@ -22,15 +22,15 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     return Scaffold(
       appBar: adminAppBar(context),
       drawer: adminDrawer(context),
-      backgroundColor: Color(0xFFE2E2E2),
+      backgroundColor: const Color(0xFFE2E2E2),
       body: ListView(
-        children: [
+        children: const [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Align(
+                Align(
                   alignment: Alignment.center,
                   child: Text(
                     "Analytics",
@@ -40,8 +40,8 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
-                const Align(
+                SizedBox(height: 30),
+                Align(
                   alignment: Alignment.center,
                   child: Text(
                     "Surveyed Alumni Based on Year Graduated",
@@ -50,7 +50,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 OlopscBarChart(
                   collectionName: 'question_2',
                 ),
