@@ -44,14 +44,16 @@ class _OlopscPieChartState extends State<OlopscPieChart> {
                 List.generate(data.length, (index) {
               final isTouched = index == touchedIndex;
               final fontSize = isTouched ? 25.0 : 16.0;
-              final radius = isTouched ? 300.0 : 250.0;
+              final radius = isTouched ? 500.0 : 450.0;
               final color = isTouched ? Colors.black : Colors.white;
               const shadow = [Shadow(color: Colors.black, blurRadius: 2)];
 
               return PieChartSectionData(
                 color: Colors.primaries[index % Colors.primaries.length],
                 value: data[index]['value'],
-                title: data[index]['year'].toString(),
+                title: '${data[index]['year']} (${data[index]['value']})',
+                // titlePositionPercentageOffset: 5,
+                badgeWidget: Transform.rotate(angle: 100),
                 radius: radius,
                 titleStyle: TextStyle(
                   fontSize: fontSize,
