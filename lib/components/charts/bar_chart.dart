@@ -5,9 +5,14 @@ import 'package:flutter/material.dart';
 
 class OlopscBarChart extends StatefulWidget {
   final String collectionName;
-  const OlopscBarChart({
+
+  final String questionName;
+  final String toolTip;
+  OlopscBarChart({
     super.key,
+    required this.toolTip,
     required this.collectionName,
+    required this.questionName,
   });
 
   @override
@@ -15,52 +20,7 @@ class OlopscBarChart extends StatefulWidget {
 }
 
 class OlopscBarChartState extends State<OlopscBarChart> {
-  // Widget bottomTitles(double value, TitleMeta meta) {
-  //   const style = TextStyle(fontSize: 10);
-  //   String text;
-  //   switch (value.toInt()) {
-  //     case 0:
-  //       text = 'BSCS';
-  //       break;
-  //     case 1:
-  //       text = 'May';
-  //       break;
-  //     case 2:
-  //       text = 'Jun';
-  //       break;
-  //     case 3:
-  //       text = 'Jul';
-  //       break;
-  //     case 4:
-  //       text = 'Aug';
-  //       break;
-  //     default:
-  //       text = '';
-  //       break;
-  //   }
-  //   return SideTitleWidget(
-  //     axisSide: meta.axisSide,
-  //     child: Text(text, style: style),
-  //   );
-  // }
-
-  // Widget leftTitles(double value, TitleMeta meta) {
-  //   if (value == meta.max) {
-  //     return Container();
-  //   }
-  //   const style = TextStyle(
-  //     fontSize: 10,
-  //   );
-  //   return SideTitleWidget(
-  //     axisSide: meta.axisSide,
-  //     child: Text(
-  //       meta.formattedValue,
-  //       style: style,
-  //     ),
-  //   );
-  // }
-
-  LinearGradient get _barsGradient => const LinearGradient(
+  LinearGradient get _barsGradient => LinearGradient(
         colors: [
           Colors.blue,
           Colors.cyan,
@@ -75,7 +35,6 @@ class OlopscBarChartState extends State<OlopscBarChart> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     field_state = [
       'strongly_agree',
@@ -110,12 +69,15 @@ class OlopscBarChartState extends State<OlopscBarChart> {
         width: MediaQuery.of(context).size.width / 1.5,
         child: Column(
           children: [
-            const Text(
-              'Question',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 35,
+            Tooltip(
+              child: Text(
+                widget.questionName,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 35,
+                ),
               ),
+              message: widget.toolTip,
             ),
             const SizedBox(
               height: 6,
@@ -132,7 +94,10 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                           f_state = field_state[0];
                         });
                       },
-                      child: const Text('Strongly Agree'),
+                      child: Text(
+                        'Strongly Agree',
+                        style: TextStyle(color: barColors1[0]),
+                      ),
                     ),
                     TextButton(
                       onPressed: () {
@@ -140,7 +105,10 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                           f_state = field_state[1];
                         });
                       },
-                      child: const Text('Agree'),
+                      child: Text(
+                        'Agree',
+                        style: TextStyle(color: barColors1[1]),
+                      ),
                     ),
                     TextButton(
                       onPressed: () {
@@ -148,7 +116,10 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                           f_state = field_state[2];
                         });
                       },
-                      child: const Text('Neutral'),
+                      child: Text(
+                        'Neutral',
+                        style: TextStyle(color: barColors1[2]),
+                      ),
                     ),
                     TextButton(
                       onPressed: () {
@@ -156,7 +127,10 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                           f_state = field_state[3];
                         });
                       },
-                      child: const Text('Disagree'),
+                      child: Text(
+                        'Disagree',
+                        style: TextStyle(color: barColors1[3]),
+                      ),
                     ),
                     TextButton(
                       onPressed: () {
@@ -164,7 +138,10 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                           f_state = field_state[4];
                         });
                       },
-                      child: const Text('Strongly Disagree'),
+                      child: Text(
+                        'Strongly Disagree',
+                        style: TextStyle(color: barColors1[4]),
+                      ),
                     ),
                   ],
                 ),
@@ -194,8 +171,8 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                         final barsWidth = 8.0 * constraints.maxWidth / 400;
                         return BarChart(
                           BarChartData(
-                            maxY: 6000,
-                            backgroundColor: Colors.blue[100],
+                            maxY: 1200,
+                            backgroundColor: Color(0xFF0B085F),
                             alignment: BarChartAlignment.spaceAround,
                             barTouchData: BarTouchData(
                               enabled: false,
@@ -208,7 +185,7 @@ class OlopscBarChartState extends State<OlopscBarChart> {
                                   return BarTooltipItem(
                                     rod.toY.round().toString(),
                                     const TextStyle(
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   );

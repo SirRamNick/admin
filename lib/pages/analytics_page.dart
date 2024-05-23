@@ -2,6 +2,7 @@ import 'package:admin_app/components/admin_appbar.dart';
 import 'package:admin_app/components/admin_drawer.dart';
 import 'package:admin_app/components/charts/bar_chart.dart';
 import 'package:admin_app/services/firebase.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AnalyticsPage extends StatefulWidget {
@@ -22,7 +23,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     return Scaffold(
       appBar: adminAppBar(context),
       drawer: adminDrawer(context),
-      backgroundColor: const Color(0xFFE2E2E2),
+      backgroundColor: const Color(0xFFFFD22F),
       body: ListView(
         children: const [
           Padding(
@@ -50,18 +51,40 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
+                Center(
+                  child: FutureBuilder(
+                    future:
+                        FirebaseFirestore.instance.collection('alumni').get(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Container();
+                      }
+                      return Text(snapshot.data!.docs.length.toString());
+                    },
+                  ),
+                ),
                 OlopscBarChart(
                   collectionName: 'question_2',
+                  questionName: 'Relevance',
+                  toolTip:
+                      "The skills you've mentioned helped you in pursuing your career path",
                 ),
                 OlopscBarChart(
                   collectionName: 'question_3',
+                  questionName: 'Continuity',
+                  toolTip: "Your first job aligns with your current job",
                 ),
                 OlopscBarChart(
                   collectionName: 'question_5',
+                  questionName: 'Compatibility',
+                  toolTip:
+                      "The program you took in OLOPSC matches your current job",
                 ),
                 OlopscBarChart(
                   collectionName: 'question_6',
+                  questionName: 'Satisfaction',
+                  toolTip: "You are satisfied with your current job.",
                 ),
               ],
             ),
@@ -71,15 +94,3 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     );
   }
 }
-
-  // Stream<List<FlSpot>> fetchStats() {
-  //   final CollectionReference collectionStats = FirestoreService().stats;
-  //   return collectionStats.snapshots().map((QuerySnapshot querySnapshot) {
-  //     final stats = querySnapshot.docs.map((doc) {
-  //       final index = doc.get('year') as int;
-  //       final value = doc.get('value') as int;
-  //       return FlSpot(index.toDouble(), value.toDouble());
-  //     }).toList();
-  //     return stats;
-  //   });
-  // }
