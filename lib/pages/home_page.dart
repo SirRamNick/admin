@@ -265,62 +265,62 @@ class _HomePageState extends State<HomePage> {
                             degreePopupMenuItem(
                               "BS Computer Science",
                               // "BS in Computer Science",
-                              "BSCS",
+                              "BS in Computer Science",
                             ),
                             degreePopupMenuItem(
                               "Associate in Computer Technology",
                               // "Associate in Computer Technology",
-                              "ACT",
+                              "Associate in Computer Technology",
                             ),
                             degreePopupMenuItem(
                               "BEEd Major in General Education",
                               // "Bachelor in Elementary Education Major in General Education",
-                              "BEEd-GE",
+                              "Bachelor in Elementary Education Major in General Education",
                             ),
                             degreePopupMenuItem(
                               "BSEd Major in English",
                               // "Bachelor Secondary Education Major in English ",
-                              "BSEd-English",
+                              "Bachelor Secondary Education Major in English ",
                             ),
                             degreePopupMenuItem(
                               "BSEd Major in Mathematics",
                               // "Bachelor Secondary Education Major in Mathematics ",
-                              "BSEd-Math",
+                              "Bachelor Secondary Education Major in Mathematics ",
                             ),
                             degreePopupMenuItem(
                               "Bachelor of Arts in English",
                               // "Bachelor of Arts in English ",
-                              "AB English",
+                              "Bachelor of Arts in English ",
                             ),
                             degreePopupMenuItem(
                               "BSBA Major in Marketing Management",
                               // "BS in Business Administration Major in Marketing Management ",
-                              "BSBA-MM",
+                              "BS in Business Administration Major in Marketing Management ",
                             ),
                             degreePopupMenuItem(
                               "BSBA Major in Human Resource Management",
                               // "BS in Business Administration Major in Human Resource Management",
-                              "BSBA-HRM",
+                              "BS in Business Administration Major in Human Resource Management",
                             ),
                             degreePopupMenuItem(
                               "BS Entrepreneurship",
                               // "BS in Entrepreneurship",
-                              "BS Entrep",
+                              "BS in Entrepreneurship",
                             ),
                             degreePopupMenuItem(
                               "BS Hospitality Management/Hotel and Restaurant Management",
                               // "BS in Hospitality Management / Hotel and Restaurant Management",
-                              "BSHM/BSHRM",
+                              "BS in Hospitality Management / Hotel and Restaurant Management",
                             ),
                             degreePopupMenuItem(
                               "BS Tourism Management",
                               // "BS in Tourism Management",
-                              "BSTM",
+                              "BS in Tourism Management",
                             ),
                             degreePopupMenuItem(
                               "Teacher Certificate Program",
                               // "Teacher Certificate Program",
-                              "TCP",
+                              "Teacher Certificate Program",
                             ),
                           ],
                         );
@@ -333,8 +333,8 @@ class _HomePageState extends State<HomePage> {
           ),
           StreamBuilder(
             stream: alumniBase.alumni.snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
+            builder: (context, snapShot) {
+              if (!snapShot.hasData) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 17.0),
                   child: Card(
@@ -351,10 +351,8 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.symmetric(horizontal: 17.0),
                 child: Card(
                   child: ListTile(
-                    title: Text(searchStringQuery == ''
-                        ? "Total Surveyed Alumni"
-                        : "Displayed Alumni Count"),
-                    subtitle: Text("${snapshot.data!.docs.length}"),
+                    title: const Text("Total Surveyed Alumni"),
+                    subtitle: Text("${snapShot.data!.docs.length}"),
                   ),
                 ),
               );
